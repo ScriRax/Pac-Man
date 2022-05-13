@@ -1,13 +1,26 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
 
-namespace JeuxOpenGL
+namespace monJeu
 {
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+
+        public static Random random;
+        public static int ScreenWidth = 1920;
+        public static int ScreenHeight = 1080;
+        
+      
+
+
+        private Texture2D pacmanTexture;
+        private Vector2 _position;
+
+
 
         public Game1()
         {
@@ -26,16 +39,37 @@ namespace JeuxOpenGL
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+            pacmanTexture = Content.Load<Texture2D>("pacman");
 
             // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
-                Exit();
+            if(Keyboard.GetState().IsKeyDown(Keys.Z))
+            {
+                _position.Y -= 5;
+            }
 
-            // TODO: Add your update logic here
+            if(Keyboard.GetState().IsKeyDown(Keys.S))
+            {
+                _position.Y += 5;
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Q))
+            {
+                _position.X -= 5;
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.D))
+            {
+                _position.X += 5;
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
 
             base.Update(gameTime);
         }
@@ -44,7 +78,14 @@ namespace JeuxOpenGL
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+    
+
             // TODO: Add your drawing code here
+
+             _spriteBatch.Begin();
+             _spriteBatch.Draw(pacmanTexture, _position, Color.White);
+             _spriteBatch.End();
+
 
             base.Draw(gameTime);
         }

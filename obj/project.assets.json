@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net6.0": {
+    ".NETCoreApp,Version=v3.1": {
       "MonoGame.Content.Builder.Task/3.8.0.1641": {
         "type": "package",
         "build": {
@@ -168,35 +168,36 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net6.0": [
+    ".NETCoreApp,Version=v3.1": [
       "MonoGame.Content.Builder.Task >= 3.8.0.1641",
       "MonoGame.Framework.DesktopGL >= 3.8.0.1641"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\EnzoD\\.nuget\\packages\\": {}
+    "C:\\Users\\cover\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\EnzoD\\Documents\\3ème année\\.net\\JeuxOpenGL\\JeuxOpenGL.csproj",
-      "projectName": "JeuxOpenGL",
-      "projectPath": "C:\\Users\\EnzoD\\Documents\\3ème année\\.net\\JeuxOpenGL\\JeuxOpenGL.csproj",
-      "packagesPath": "C:\\Users\\EnzoD\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\EnzoD\\Documents\\3ème année\\.net\\JeuxOpenGL\\obj\\",
+      "projectUniqueName": "C:\\Users\\cover\\Desktop\\monJeu\\monJeu.csproj",
+      "projectName": "monJeu",
+      "projectPath": "C:\\Users\\cover\\Desktop\\monJeu\\monJeu.csproj",
+      "packagesPath": "C:\\Users\\cover\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\cover\\Desktop\\monJeu\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\EnzoD\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\cover\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
-        "net6.0"
+        "netcoreapp3.1"
       ],
       "sources": {
+        "http://teamcity.monogame.net/guestAuth/app/nuget/feed/_Root/default/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net6.0": {
-          "targetAlias": "net6.0",
+        "netcoreapp3.1": {
+          "targetAlias": "netcoreapp3.1",
           "projectReferences": {}
         }
       },
@@ -207,8 +208,8 @@
       }
     },
     "frameworks": {
-      "net6.0": {
-        "targetAlias": "net6.0",
+      "netcoreapp3.1": {
+        "targetAlias": "netcoreapp3.1",
         "dependencies": {
           "MonoGame.Content.Builder.Task": {
             "target": "Package",

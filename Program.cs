@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace JeuxOpenGL
+namespace monJeu
 {
     public static class Program
     {
