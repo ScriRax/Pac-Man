@@ -1,0 +1,8 @@
+Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/xampp/htdocs/Pac-Man/Content/Pac_Down.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Pac_Down.xnb","TextureProcessor","Texture2DContent",200,4441,0,2457019
+"C:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Pac_Idle.xnb","TextureProcessor","Texture2DContent",170,4441,0,0051423
+"C:/xampp/htdocs/Pac-Man/Content/Pac_Left.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Pac_Left.xnb","TextureProcessor","Texture2DContent",204,4441,0,0220294
+"C:/xampp/htdocs/Pac-Man/Content/Pac_Right.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Pac_Right.xnb","TextureProcessor","Texture2DContent",214,4441,0,0095919
+"C:/xampp/htdocs/Pac-Man/Content/Pac_Up.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Pac_Up.xnb","TextureProcessor","Texture2DContent",200,4441,0,0156395
+"C:/xampp/htdocs/Pac-Man/Content/pacman-sprite.png","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/pacman-sprite.xnb","TextureProcessor","Texture2DContent",34443,3515701,0,1809479
+"C:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/TestFont.xnb","LocalizedFontProcessor","SpriteFontContent",2426,956,0,1647077

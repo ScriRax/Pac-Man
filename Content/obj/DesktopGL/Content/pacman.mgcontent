@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/cover/Desktop/monJeu/Content/pacman.png</SourceFile>
-  <SourceTime>2022-05-13T09:34:28.6264837+02:00</SourceTime>
-  <DestFile>C:/Users/cover/Desktop/monJeu/Content/bin/DesktopGL/Content/pacman.xnb</DestFile>
-  <DestTime>2022-05-13T11:59:26.4196992+02:00</DestTime>
+  <SourceFile>C:/xampp/htdocs/Pac-Man/Content/pacman.png</SourceFile>
+  <SourceTime>2022-05-13T12:44:14.8315547+02:00</SourceTime>
+  <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/pacman.xnb</DestFile>
+  <DestTime>2022-05-13T12:48:23.8549501+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>
