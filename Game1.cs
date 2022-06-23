@@ -2,49 +2,36 @@
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
+using System.Collections.Generic;
 
 namespace monJeu
 {
-    enum SpriteState {
-            Left,
-            Right,
-            Top,
-            Down,
-            Idle
-        }
     public class Game1 : Game
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
 
-        private SpriteFont _font;
+        //private SpriteFont _font;
+        private List<Walls> wallsArr;
 
         public static Random random;
-        public static int ScreenWidth = 1280;
-        public static int ScreenHeight = 960;
+        public static int ScreenWidth = 1024;
+        public static int ScreenHeight = 768;
 
-        private Texture2D pacmanTextureRight;
-        private Texture2D pacmanTextureLeft;
-        private Texture2D pacmanTextureIdle;
-        private Texture2D pacmanTextureTop;
-        private Texture2D pacmanTextureDown;
-        private Vector2 _position;
+        Pacman player = new Pacman();
 
-        Ghost blueGhost = new Ghost("red");
-
-        SpriteState currentSpriteState = SpriteState.Idle;
+        Ghost redGhost = new Ghost("red");
+        Ghost blueGhost = new Ghost("blue");
 
         public Game1()
         {
             _graphics = new GraphicsDeviceManager(this);
-            Content.RootDirectory = "Content";            
+            Content.RootDirectory = "Content";
             IsMouseVisible = true;
         }
 
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
-            //Window.AllowUserResizing = true;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.ApplyChanges();
@@ -54,101 +41,149 @@ namespace monJeu
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
-            pacmanTextureRight = Content.Load<Texture2D>("Pac_Right");
-            pacmanTextureLeft = Content.Load<Texture2D>("Pac_Left");
-            pacmanTextureTop = Content.Load<Texture2D>("Pac_Up");
-            pacmanTextureDown = Content.Load<Texture2D>("Pac_Down");
-            pacmanTextureIdle = Content.Load<Texture2D>("Pac_Idle");
+            player.LoadPac(Content);
             //_font = Content.Load<SpriteFont>("TestFont");
+            var wallTexture = Content.Load<Texture2D>("WallPac");
+            wallsArr = new List<Walls>() {
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(35,35),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(35,100),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(100,100),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(100,35),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(35,215),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(100,215),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(35,215),
+                },
+                new Walls(wallTexture)
+                {
+                    Position = new Vector2(215,35),
+                },
+                };
 
+            redGhost.LoadGhost(Content);
             blueGhost.LoadGhost(Content);
-
-            // TODO: use this.Content to load your game content here
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Up))
-            {
-                currentSpriteState = SpriteState.Top;
-                _position.Y -= 10;
-                
-            }
+            player.Movement();
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Down))
-            {
-                currentSpriteState = SpriteState.Down;
-                _position.Y += 10;
-                
-            }
+            ScreenCollision();
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Left))
-            {
-                currentSpriteState = SpriteState.Left;
-                _position.X -= 10;
-                
-            }
+            WallsCollision(wallsArr);
 
-            if(Keyboard.GetState().IsKeyDown(Keys.Right))
-            {
-                currentSpriteState = SpriteState.Right;
-                _position.X += 10;
-                
-            }
-
-            if(Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            if(_position.X > _graphics.PreferredBackBufferWidth - pacmanTextureIdle.Width)
-            {
-                _position.X = _graphics.PreferredBackBufferWidth - pacmanTextureIdle.Width;
-            }
-            else if(_position.X < 0) {
-                _position.X = 0;
-            }
+            player.position += player.velocity;
 
-            if(_position.Y > _graphics.PreferredBackBufferHeight - pacmanTextureIdle.Height) 
-            {
-                _position.Y = _graphics.PreferredBackBufferHeight - pacmanTextureIdle.Height;
-            }
-            else if(_position.Y < 0)
-            {
-                _position.Y = 0;
-            }
+            player.velocity = Vector2.Zero;
 
             base.Update(gameTime);
+        }
+
+
+
+        private void ScreenCollision()
+        {
+            if (player.position.X > _graphics.PreferredBackBufferWidth - player.pacmanTextureIdle.Width)
+            {
+                player.position.X = _graphics.PreferredBackBufferWidth - player.pacmanTextureIdle.Width;
+            }
+            else if (player.position.X < 0)
+            {
+                player.position.X = 0;
+            }
+            if (player.position.Y > _graphics.PreferredBackBufferHeight - player.pacmanTextureIdle.Height)
+            {
+                player.position.Y = _graphics.PreferredBackBufferHeight - player.pacmanTextureIdle.Height;
+            }
+            else if (player.position.Y < 0)
+            {
+                player.position.Y = 0;
+            }
+        }
+
+        protected bool IsTouchingLeft(Walls wall)
+        {
+            return player.PlayerRec.Right + player.velocity.X > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Left &&
+              player.PlayerRec.Bottom > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Bottom;
+        }
+
+        protected bool IsTouchingRight(Walls wall)
+        {
+            return player.PlayerRec.Left + player.velocity.X < wall.WallRec.Right &&
+              player.PlayerRec.Right > wall.WallRec.Right &&
+              player.PlayerRec.Bottom > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Bottom;
+        }
+
+        protected bool IsTouchingTop(Walls wall)
+        {
+            return player.PlayerRec.Bottom + player.velocity.Y > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Top &&
+              player.PlayerRec.Right > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Right;
+        }
+
+        protected bool IsTouchingBottom(Walls wall)
+        {
+            return player.PlayerRec.Top + player.velocity.Y < wall.WallRec.Bottom &&
+              player.PlayerRec.Bottom > wall.WallRec.Bottom &&
+              player.PlayerRec.Right > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Right;
+        }
+
+        public void WallsCollision(List<Walls> wallsList)
+        {
+            foreach (var wall in wallsList)
+            {
+                if ((player.velocity.X > 0 && this.IsTouchingLeft(wall)) ||
+                (player.velocity.X < 0 & this.IsTouchingRight(wall)))
+                    player.velocity.X = 0;
+
+                if ((player.velocity.Y > 0 && this.IsTouchingTop(wall)) ||
+                    (player.velocity.Y < 0 & this.IsTouchingBottom(wall)))
+                    player.velocity.Y = 0;
+            }
         }
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
-
             _spriteBatch.Begin();
-             //_spriteBatch.DrawString(_font,"Pos X : ",_position.X,Color.Black);
-            switch(currentSpriteState) 
-            {
-                case SpriteState.Left:
-                _spriteBatch.Draw(pacmanTextureLeft, _position, Color.White);
-                break;
-                case SpriteState.Right:
-                _spriteBatch.Draw(pacmanTextureRight, _position, Color.White);
-                break;
-                case SpriteState.Top:
-                _spriteBatch.Draw(pacmanTextureTop, _position, Color.White);
-                break;
-                case SpriteState.Down:
-                _spriteBatch.Draw(pacmanTextureDown, _position, Color.White);
-                break;
-                case SpriteState.Idle:
-                _spriteBatch.Draw(pacmanTextureIdle, _position, Color.White);
-                break;
-            } 
-            
+            //_spriteBatch.DrawString(_font,"posx",_position,Color.Black);
+            player.Draw(_spriteBatch);
             blueGhost.Draw(_spriteBatch);
+
+            foreach (var wall in wallsArr)
+            {
+                wall.Draw(_spriteBatch);
+            }
 
             _spriteBatch.End();
 

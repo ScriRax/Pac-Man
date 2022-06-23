@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>c:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont</SourceFile>
-  <SourceTime>2020-08-10T18:17:28+02:00</SourceTime>
-  <DestFile>c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/TestFont.xnb</DestFile>
-  <DestTime>2022-06-20T08:31:33.4100123+02:00</DestTime>
+  <SourceFile>C:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont</SourceFile>
+  <SourceTime>2022-06-23T10:50:35.618151+02:00</SourceTime>
+  <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/TestFont.xnb</DestFile>
+  <DestTime>2022-06-23T10:50:44.8411205+02:00</DestTime>
   <Importer>FontDescriptionImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>LocalizedFontProcessor</Processor>
