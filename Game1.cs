@@ -30,6 +30,8 @@ namespace monJeu
         private Texture2D pacmanTextureDown;
         private Vector2 _position;
 
+        Ghost blueGhost = new Ghost("red");
+
         SpriteState currentSpriteState = SpriteState.Idle;
 
         public Game1()
@@ -42,7 +44,7 @@ namespace monJeu
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-            Window.AllowUserResizing = true;
+            //Window.AllowUserResizing = true;
             _graphics.PreferredBackBufferHeight = ScreenHeight;
             _graphics.PreferredBackBufferWidth = ScreenWidth;
             _graphics.ApplyChanges();
@@ -57,7 +59,9 @@ namespace monJeu
             pacmanTextureTop = Content.Load<Texture2D>("Pac_Up");
             pacmanTextureDown = Content.Load<Texture2D>("Pac_Down");
             pacmanTextureIdle = Content.Load<Texture2D>("Pac_Idle");
-            _font = Content.Load<SpriteFont>("TestFont");
+            //_font = Content.Load<SpriteFont>("TestFont");
+
+            blueGhost.LoadGhost(Content);
 
             // TODO: use this.Content to load your game content here
         }
@@ -97,17 +101,17 @@ namespace monJeu
                 Exit();
             }
 
-            if(_position.X > _graphics.PreferredBackBufferWidth - pacmanTextureLeft.Width)
+            if(_position.X > _graphics.PreferredBackBufferWidth - pacmanTextureIdle.Width)
             {
-                _position.X = _graphics.PreferredBackBufferWidth - pacmanTextureLeft.Width;
+                _position.X = _graphics.PreferredBackBufferWidth - pacmanTextureIdle.Width;
             }
             else if(_position.X < 0) {
                 _position.X = 0;
             }
 
-            if(_position.Y > _graphics.PreferredBackBufferHeight - pacmanTextureLeft.Height) 
+            if(_position.Y > _graphics.PreferredBackBufferHeight - pacmanTextureIdle.Height) 
             {
-                _position.Y = _graphics.PreferredBackBufferHeight - pacmanTextureLeft.Height;
+                _position.Y = _graphics.PreferredBackBufferHeight - pacmanTextureIdle.Height;
             }
             else if(_position.Y < 0)
             {
@@ -144,6 +148,8 @@ namespace monJeu
                 break;
             } 
             
+            blueGhost.Draw(_spriteBatch);
+
             _spriteBatch.End();
 
             base.Draw(gameTime);

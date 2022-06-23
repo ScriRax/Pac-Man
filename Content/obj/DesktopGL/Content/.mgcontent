@@ -4,15 +4,17 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Down.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Up.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/pacman-sprite.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Ghost_Red_Right.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Pac_Down.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Pac_Right.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/Pac_Up.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/pacman-sprite.png</File>
+    <File>c:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</SourceFile>
+  <SourceFile>c:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</SourceFile>
   <SourceTime>2022-05-13T16:02:14.3410637+02:00</SourceTime>
-  <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Left.xnb</DestFile>
-  <DestTime>2022-05-13T16:20:59.8163113+02:00</DestTime>
+  <DestFile>c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Left.xnb</DestFile>
+  <DestTime>2022-06-20T08:31:31.9711579+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

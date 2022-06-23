@@ -56,3 +56,4 @@ C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Pac_Down.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Pac_Idle.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Pac_Left.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Pac_Up.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Red_Right.xnb
