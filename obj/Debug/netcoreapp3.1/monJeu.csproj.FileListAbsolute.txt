@@ -59,3 +59,5 @@ C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Pac_Up.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Red_Right.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Blue_Right.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\WallPac.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\stage.ogg
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\stage.xnb

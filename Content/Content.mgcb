@@ -109,6 +109,12 @@
 /processorParam:TextureFormat=Color
 /build:pacman-sprite.png
 
+#begin stage.mp3
+/importer:Mp3Importer
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:stage.mp3
+
 #begin TestFont.spritefont
 /importer:FontDescriptionImporter
 /processor:LocalizedFontProcessor
