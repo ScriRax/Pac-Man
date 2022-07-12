@@ -1,3 +1,1 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/cover/Desktop/projet_net/Pac-Man/Content/Gameover.png","C:/Users/cover/Desktop/projet_net/Pac-Man/Content/bin/DesktopGL/Gameover.xnb","TextureProcessor","Texture2DContent",5366,3145813,0,263044
-"C:/Users/cover/Desktop/projet_net/Pac-Man/Content/Score.spritefont","C:/Users/cover/Desktop/projet_net/Pac-Man/Content/bin/DesktopGL/Score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,37922,0,1192752

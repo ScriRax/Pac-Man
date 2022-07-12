@@ -508,7 +508,7 @@ private void DrawGameOver()
                 {
                     Sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
                     coinArr.Remove(coinArr[i]);
-                    score += 5000;
+                    score += 50;
                 }
             }
         }

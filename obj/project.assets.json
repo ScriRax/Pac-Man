@@ -174,25 +174,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\cover\\.nuget\\packages\\": {}
+    "C:\\Users\\EnzoD\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\cover\\Desktop\\projet_net\\Pac-Man\\monJeu.csproj",
+      "projectUniqueName": "C:\\xampp\\htdocs\\Pac-Man\\monJeu.csproj",
       "projectName": "monJeu",
-      "projectPath": "C:\\Users\\cover\\Desktop\\projet_net\\Pac-Man\\monJeu.csproj",
-      "packagesPath": "C:\\Users\\cover\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\cover\\Desktop\\projet_net\\Pac-Man\\obj\\",
+      "projectPath": "C:\\xampp\\htdocs\\Pac-Man\\monJeu.csproj",
+      "packagesPath": "C:\\Users\\EnzoD\\.nuget\\packages\\",
+      "outputPath": "C:\\xampp\\htdocs\\Pac-Man\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\cover\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\EnzoD\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netcoreapp3.1"
       ],
       "sources": {
-        "http://teamcity.monogame.net/guestAuth/app/nuget/feed/_Root/default/v3/index.json": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/Users/cover/Desktop/projet_net/Pac-Man/Content/coinsfx.wav</SourceFile>
-  <SourceTime>2022-07-12T12:37:39.1943185+02:00</SourceTime>
-  <DestFile>C:/Users/cover/Desktop/projet_net/Pac-Man/Content/bin/DesktopGL/coinsfx.xnb</DestFile>
-  <DestTime>2022-07-12T13:50:18.1520897+02:00</DestTime>
+  <SourceFile>C:/xampp/htdocs/Pac-Man/Content/coinsfx.wav</SourceFile>
+  <SourceTime>2022-07-12T11:39:11.4108883+02:00</SourceTime>
+  <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/coinsfx.xnb</DestFile>
+  <DestTime>2022-07-12T18:34:33.5115912+02:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

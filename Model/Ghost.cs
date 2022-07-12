@@ -24,8 +24,8 @@ namespace monJeu
         public Ghost(string color)
         {
             this.GhostColor = color;
-            PositionG.X = 602;//rand.Next(1024);
-            PositionG.Y = 620;//rand.Next(768);
+            PositionG.X = 602;
+            PositionG.Y = 620;
         }
 
         public void LoadGhost(ContentManager content)

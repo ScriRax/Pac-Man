@@ -1,3 +1,8 @@
 obj/
 Content/bin
 Content/obj
+obj/Debug/netcoreapp3.1/monJeu.assets.cache
+obj/Debug/netcoreapp3.1/monJeu.csproj.FileListAbsolute.txt
+obj/Debug/netcoreapp3.1/monJeu.dll
+obj/Debug/netcoreapp3.1/monJeu.GeneratedMSBuildEditorConfig.editorconfig
+obj/Debug/netcoreapp3.1/monJeu.pdb

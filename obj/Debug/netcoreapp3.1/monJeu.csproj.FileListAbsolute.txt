@@ -118,3 +118,11 @@ C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\pause.
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\File.xnb
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\Score.xnb
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\Gameover.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Classement_Monoman.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\File.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Gameover.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\NewMenu_Monoman.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\pause.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\piece-pacman.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Score.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Tuto_Monoman.xnb
