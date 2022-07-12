@@ -1,8 +1,5 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Content;
-using System;
-using System.Collections.Generic;
 
 namespace monJeu
 {
@@ -10,7 +7,7 @@ namespace monJeu
     {
         private Texture2D texture;
         private Color wallColor = Color.White;
-        public Vector2 Position; 
+        public Vector2 Position;
         public Walls(Texture2D wallTexture)
         {
             texture = wallTexture;
@@ -22,11 +19,6 @@ namespace monJeu
                 return new Rectangle((int)Position.X, (int)Position.Y, 70, 70);
             }
         }
-
-        // public void Update(GameTime gametime, List<Walls> walls)
-        // {
-
-        // }
 
         public void Draw(SpriteBatch wallsBatch)
         {

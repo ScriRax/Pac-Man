@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Audio;
 
 namespace monJeu
 {
@@ -11,14 +12,15 @@ namespace monJeu
     {
         private GraphicsDeviceManager Graphics;
         private SpriteBatch SpriteBatch;
-        //private SpriteFont _font;
         private List<Walls> wallsArr;
+        private List<Ghost> ghostsArr;
+        private List<Intersection> interArr;
+        private Intersection previousInter;
         public static int ScreenWidth = 1024;
         public static int ScreenHeight = 768;
+        private SoundEffect hitSound;
+        private Random r = new Random();
         Pacman player = new Pacman();
-        Ghost redGhost = new Ghost("red");
-        Ghost blueGhost = new Ghost("blue");
-
         Map mapWalls = new Map();
         Song mainSong;
 
@@ -26,7 +28,7 @@ namespace monJeu
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;        
+            IsMouseVisible = true;
         }
 
         protected override void Initialize()
@@ -35,22 +37,41 @@ namespace monJeu
             Graphics.PreferredBackBufferWidth = ScreenWidth;
             Graphics.ApplyChanges();
             base.Initialize();
+            previousInter = interArr[1];
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-            
+
             this.mainSong = Content.Load<Song>("stage");
             MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 0.0f;
             MediaPlayer.IsRepeating = true;
 
+            hitSound = Content.Load<SoundEffect>("hitsfx");
+
+            ghostsArr = new List<Ghost>()
+            {
+                new Ghost("red") {
+                },
+                new Ghost("blue") {
+                },
+                new Ghost("pink") {
+                },
+                new Ghost("orange") {
+                },
+            };
+
+            foreach (var ghost in ghostsArr)
+            {
+                ghost.LoadGhost(Content);
+            }
+
             player.LoadPac(Content);
-            redGhost.LoadGhost(Content);
-            blueGhost.LoadGhost(Content);
-            //_font = Content.Load<SpriteFont>("TestFont");
             wallsArr = mapWalls.LoadWalls(Content);
+
+            interArr = mapWalls.LoadIntersection(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -58,22 +79,27 @@ namespace monJeu
             player.Move();
 
             ScreenCollision();
-
+            ScreenCollisionGhost(ghostsArr);
             WallsCollision(wallsArr);
+            IntersectionCollisionGhost(ghostsArr);
+            WallsGhostsCollision();
+            TouchingGhost();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            player.Position += player.Velocity;
+            foreach (var ghost in ghostsArr)
+            {
+                ghost.PositionG += ghost.Velocity;
+            }
 
+            player.Position += player.Velocity;
             player.Velocity = Vector2.Zero;
 
             base.Update(gameTime);
         }
-
-
 
         private void ScreenCollision()
         {
@@ -95,49 +121,275 @@ namespace monJeu
             }
         }
 
-        protected bool IsTouchingLeft(Walls wall)
+        private void IntersectionCollisionGhost(List<Ghost> ghosts)
         {
-            return player.PlayerRec.Right + player.Velocity.X > wall.WallRec.Left &&
-              player.PlayerRec.Left < wall.WallRec.Left &&
-              player.PlayerRec.Bottom > wall.WallRec.Top &&
-              player.PlayerRec.Top < wall.WallRec.Bottom;
+            foreach (var inter in interArr)
+            {
+                if (inter.Position != previousInter.Position)
+                {
+                    foreach (var ghost in ghostsArr)
+                    {
+                        int direction = r.Next(1, 4);
+                        if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeftInter(inter, ghost))
+                        {
+                            previousInter = inter;
+                            ghost.Velocity.X = 0;
+                            switch (direction)
+                            {
+                                case 1:
+                                    ghost.Velocity.X = 1;
+                                    break;
+                                case 2:
+                                    ghost.Velocity.Y = -1;
+                                    break;
+                                case 3:
+                                    ghost.Velocity.Y = 1;
+                                    break;
+                            }
+                        }
+                        else if (ghost.Velocity.X < 0 && Collision.IsGhostTouchingRightInter(inter, ghost))
+                        {
+                            previousInter = inter;
+                            ghost.Velocity.X = 0;
+                            switch (direction)
+                            {
+                                case 1:
+                                    ghost.Velocity.Y = 1;
+                                    break;
+                                case 2:
+                                    ghost.Velocity.X = -1;
+                                    break;
+                                case 3:
+                                    ghost.Velocity.Y = -1;
+                                    break;
+                            }
+                        }
+
+                        else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTopInter(inter, ghost))
+                        {
+                            previousInter = inter;
+                            ghost.Velocity.Y = 0;
+                            switch (direction)
+                            {
+                                case 1:
+                                    ghost.Velocity.Y = 1;
+                                    break;
+                                case 2:
+                                    ghost.Velocity.X = 1;
+                                    break;
+                                case 3:
+                                    ghost.Velocity.X = -1;
+                                    break;
+                            }
+                        }
+                        else if (ghost.Velocity.Y < 0 && Collision.IsGhostTouchingBottomInter(inter, ghost))
+                        {
+                            previousInter = inter;
+                            ghost.Velocity.Y = 0;
+                            switch (direction)
+                            {
+                                case 1:
+                                    ghost.Velocity.X = -1;
+                                    break;
+                                case 2:
+                                    ghost.Velocity.Y = -1;
+                                    break;
+                                case 3:
+                                    ghost.Velocity.X = 1;
+                                    break;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
-        protected bool IsTouchingRight(Walls wall)
+        private void ScreenCollisionGhost(List<Ghost> ghosts)
         {
-            return player.PlayerRec.Left + player.Velocity.X < wall.WallRec.Right &&
-              player.PlayerRec.Right > wall.WallRec.Right &&
-              player.PlayerRec.Bottom > wall.WallRec.Top &&
-              player.PlayerRec.Top < wall.WallRec.Bottom;
-        }
-
-        protected bool IsTouchingTop(Walls wall)
-        {
-            return player.PlayerRec.Bottom + player.Velocity.Y > wall.WallRec.Top &&
-              player.PlayerRec.Top < wall.WallRec.Top &&
-              player.PlayerRec.Right > wall.WallRec.Left &&
-              player.PlayerRec.Left < wall.WallRec.Right;
-        }
-
-        protected bool IsTouchingBottom(Walls wall)
-        {
-            return player.PlayerRec.Top + player.Velocity.Y < wall.WallRec.Bottom &&
-              player.PlayerRec.Bottom > wall.WallRec.Bottom &&
-              player.PlayerRec.Right > wall.WallRec.Left &&
-              player.PlayerRec.Left < wall.WallRec.Right;
+            foreach (var ghost in ghosts)
+            {
+                if (ghost.PositionG.X > Graphics.PreferredBackBufferWidth - 30)
+                {
+                    int direction = r.Next(1, 3);
+                    ghost.PositionG.X = Graphics.PreferredBackBufferWidth - 30;
+                    ghost.Velocity.X = 0;
+                    switch (direction)
+                    {
+                        case 1:
+                            ghost.Velocity.X = -1;
+                            break;
+                        case 2:
+                            ghost.Velocity.Y = 1;
+                            break;
+                        case 3:
+                            ghost.Velocity.Y = -1;
+                            break;
+                    }
+                }
+                else if (ghost.PositionG.X < 0)
+                {
+                    int direction = r.Next(1, 3);
+                    ghost.PositionG.X = 0;
+                    ghost.Velocity.X = 0;
+                    switch (direction)
+                    {
+                        case 1:
+                            ghost.Velocity.X = 1;
+                            break;
+                        case 2:
+                            ghost.Velocity.Y = 1;
+                            break;
+                        case 3:
+                            ghost.Velocity.Y = -1;
+                            break;
+                    }
+                }
+                if (ghost.PositionG.Y > Graphics.PreferredBackBufferHeight - 30)
+                {
+                    int direction = r.Next(1, 3);
+                    ghost.PositionG.Y = Graphics.PreferredBackBufferHeight - 30;
+                    ghost.Velocity.Y = 0;
+                    switch (direction)
+                    {
+                        case 1:
+                            ghost.Velocity.X = -1;
+                            break;
+                        case 2:
+                            ghost.Velocity.X = 1;
+                            break;
+                        case 3:
+                            ghost.Velocity.Y = -1;
+                            break;
+                    }
+                }
+                else if (ghost.PositionG.Y < 0)
+                {
+                    int direction = r.Next(1, 3);
+                    ghost.PositionG.Y = 0;
+                    ghost.Velocity.Y = 0;
+                    switch (direction)
+                    {
+                        case 1:
+                            ghost.Velocity.X = -1;
+                            break;
+                        case 2:
+                            ghost.Velocity.X = 1;
+                            break;
+                        case 3:
+                            ghost.Velocity.Y = 1;
+                            break;
+                    }
+                }
+            }
         }
 
         public void WallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
             {
-                if ((player.Velocity.X > 0 && this.IsTouchingLeft(wall)) ||
-                (player.Velocity.X < 0 & this.IsTouchingRight(wall)))
+                if ((player.Velocity.X > 0 && Collision.IsTouchingLeft(player, wall)) ||
+                (player.Velocity.X < 0 & Collision.IsTouchingRight(player, wall)))
                     player.Velocity.X = 0;
 
-                if ((player.Velocity.Y > 0 && this.IsTouchingTop(wall)) ||
-                    (player.Velocity.Y < 0 & this.IsTouchingBottom(wall)))
+                if ((player.Velocity.Y > 0 && Collision.IsTouchingTop(player, wall)) ||
+                    (player.Velocity.Y < 0 & Collision.IsTouchingBottom(player, wall)))
                     player.Velocity.Y = 0;
+            }
+        }
+
+        public void WallsGhostsCollision()
+        {
+            foreach (var wall in wallsArr)
+            {
+                foreach (var ghost in ghostsArr)
+                {
+                    int direction = r.Next(1, 4);
+                    if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeft(wall, ghost))
+                    {
+
+                        ghost.Velocity.X = 0;
+                        switch (direction)
+                        {
+                            case 1:
+                                ghost.Velocity.X = -1;
+                                break;
+                            case 2:
+                                ghost.Velocity.Y = -1;
+                                break;
+                            case 3:
+                                ghost.Velocity.Y = 1;
+                                break;
+                        }
+                    }
+                    else if (ghost.Velocity.X < 0 && Collision.IsGhostTouchingRight(wall, ghost))
+                    {
+                        ghost.Velocity.X = 0;
+                        switch (direction)
+                        {
+                            case 1:
+                                ghost.Velocity.X = 1;
+                                break;
+                            case 2:
+                                ghost.Velocity.Y = 1;
+                                break;
+                            case 3:
+                                ghost.Velocity.Y = -1;
+                                break;
+                        }
+                    }
+
+                    else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTop(wall, ghost))
+                    {
+                        ghost.Velocity.Y = 0;
+                        switch (direction)
+                        {
+                            case 1:
+                                ghost.Velocity.X = -1;
+                                break;
+                            case 2:
+                                ghost.Velocity.X = 1;
+                                break;
+                            case 3:
+                                ghost.Velocity.Y = 1;
+                                break;
+                        }
+                    }
+                    else if (ghost.Velocity.Y < 0 && Collision.IsGhostTouchingBottom(wall, ghost))
+                    {
+                        ghost.Velocity.Y = 0;
+                        switch (direction)
+                        {
+                            case 1:
+                                ghost.Velocity.X = -1;
+                                break;
+                            case 2:
+                                ghost.Velocity.X = 1;
+                                break;
+                            case 3:
+                                ghost.Velocity.Y = -1;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
+
+        public void TouchingGhost()
+        {
+            foreach (var ghost in ghostsArr)
+            {
+                if ((Collision.IsPlayerTouchingGhostLeft(player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostRight(player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostTop(player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostBottom(player, ghost)))
+                {
+                    player.Vie = player.Vie - 1;
+                    hitSound.Play();
+                    player.Velocity.X = 0;
+                    player.Velocity.Y = 0;
+                    player.Position.X = 0;
+                    player.Position.Y = 0;
+                }
             }
         }
 
@@ -146,13 +398,22 @@ namespace monJeu
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch.Begin();
-            //SpriteBatch.DrawString(_font,"posx",_position,Color.Black);
+
             player.Draw(SpriteBatch);
-            blueGhost.Draw(SpriteBatch);
+
+            foreach (var ghost in ghostsArr)
+            {
+                ghost.Draw(SpriteBatch);
+            }
 
             foreach (var wall in wallsArr)
             {
                 wall.Draw(SpriteBatch);
+            }
+
+            foreach (var inter in interArr)
+            {
+                inter.Draw(SpriteBatch);
             }
 
             SpriteBatch.End();

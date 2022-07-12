@@ -61,3 +61,7 @@ C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Blue_Right.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\WallPac.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\stage.ogg
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\stage.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Orange_Right.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Ghost_Pink_Right.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\debug-rec.xnb
+C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\hitsfx.xnb

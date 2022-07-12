@@ -1,2 +1,2 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/xampp/htdocs/Pac-Man/Content/stage.mp3","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/stage.xnb","SongProcessor","SongContent",4964100,123,10,2064
+"C:/xampp/htdocs/Pac-Man/Content/hitsfx.wav","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/hitsfx.xnb","SoundEffectProcessor","SoundEffectContent",28494,28555,2,9295616

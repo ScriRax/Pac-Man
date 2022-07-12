@@ -4,8 +4,12 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/xampp/htdocs/Pac-Man/Content/debug-rec.jpg</File>
     <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Blue_Right.png</File>
+    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Orange_Right.png</File>
+    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Pink_Right.png</File>
     <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Red_Right.png</File>
+    <File>C:/xampp/htdocs/Pac-Man/Content/hitsfx.wav</File>
     <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Down.png</File>
     <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png</File>
     <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</File>
@@ -17,6 +21,10 @@
     <File>C:/xampp/htdocs/Pac-Man/Content/WallPac.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
