@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
 using Microsoft.Xna.Framework.Audio;
+using System.IO;
 
 namespace monJeu
 {
@@ -25,6 +26,29 @@ namespace monJeu
         Map mapWalls = new Map();
         Song mainSong;
 
+        public Texture2D DetectScreenBackground;
+        public Texture2D DetectTitleScreenBackground;
+        public Texture2D ControlScreenBackground;
+
+        public Texture2D PausedBackground;
+
+        private SpriteFont font;
+        public int score = 23;
+        private float currentTime;
+        
+        
+
+        bool IsDetectedScreenShown;
+        bool IsTitleScreenShown;
+
+        bool IsControlsScreenShown;
+
+        bool IsPaused;
+
+        bool IsPaudesSoBackground;
+
+
+
         public Game1()
         {
             Graphics = new GraphicsDeviceManager(this);
@@ -40,6 +64,7 @@ namespace monJeu
             Graphics.ApplyChanges();
             base.Initialize();
             previousInter = interArr[1];
+            IsPaudesSoBackground = false;
         }
 
         protected override void LoadContent()
@@ -75,11 +100,30 @@ namespace monJeu
             wallsArr = mapWalls.LoadWalls(Content);
             interArr = mapWalls.LoadIntersection(Content);
             coinArr = mapWalls.LoadCoin(Content);
+
+
+             DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
+            DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
+            ControlScreenBackground = Content.Load<Texture2D>("Tuto_Monoman");
+            PausedBackground = Content.Load<Texture2D>("pause");
+
+            IsDetectedScreenShown = false;
+            IsTitleScreenShown = true;
+            IsControlsScreenShown= false;
+            IsPaudesSoBackground = false;
+            font = Content.Load<SpriteFont>("Score");
+
+
         }
 
         protected override void Update(GameTime gameTime)
         {
-            player.Move();
+            
+
+            if (IsPaused == false)
+            {
+
+                player.Move();
 
             ScreenCollision();
             ScreenCollisionGhost(ghostsArr);
@@ -102,8 +146,173 @@ namespace monJeu
             player.Position += player.Velocity;
             player.Velocity = Vector2.Zero;
 
+             if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+                 {
+                        IsPaused = true;
+                   
+                 }
+
+    
+            
+
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)== true)
+                {
+                    IsPaused = false;
+                }
+                 if(IsTitleScreenShown)
+            {
+                UpdtateTitleScreen();
+            }
+            
+
+
+
             base.Update(gameTime);
         }
+
+
+//Fonction qui met a jour le screen Detect en fonction de l'input du joueur 
+        private void UpDateDetectScreen()
+        {
+
+           
+           
+            if(Keyboard.GetState().IsKeyDown(Keys.Back) == true)
+            {
+                
+                IsTitleScreenShown = false;
+                IsDetectedScreenShown = true;
+                IsControlsScreenShown=false;
+                
+            }
+        }
+
+ //Fonction de sauvegarde du score dans un fichier txt       
+private void SaveScore()
+{
+    var path = @"C:\Users\Public\Score_monogame.txt";
+
+  
+    if (!File.Exists(path))
+    {
+      File.Create(path);
+      TextWriter tw = new StreamWriter(path);
+      tw.WriteLine("Score: " + score);
+      tw.Close();
+    }
+    else if (File.Exists(path))
+    {
+      using (var tw = new StreamWriter(path, true))
+      {
+        tw.WriteLine("Score: " + score);
+        tw.Close();
+      }
+    }
+
+}
+
+//Fonction qui va update l'ecran de titre pour passer a l'ecran de jeu si on appuie sur A
+private void UpdtateTitleScreen()
+{
+    if (Keyboard.GetState().IsKeyDown(Keys.A)== true)
+    {
+        IsTitleScreenShown = false;
+        IsDetectedScreenShown = false;
+        IsControlsScreenShown = false;
+        IsPaused = false;
+        
+    }
+    
+}
+
+
+//Fonction qui va draw le screen HighScore
+    private void DrawDetectScreen()
+    {
+        SpriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;
+        
+   }
+
+   private void DrawControlScreen()
+   {
+    SpriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
+   }
+
+private void DrawPausedBackground()
+{
+        SpriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White) ;
+}
+
+
+
+private void UpdateControlScreen()
+{
+    if(Keyboard.GetState().IsKeyDown(Keys.E)==true)
+    {
+        IsDetectedScreenShown = false;
+        IsTitleScreenShown = false;
+        IsTitleScreenShown = true;
+    }
+}
+
+
+
+//Fonction qui draw l'ecran de titre 
+   private void DrawTitleScreen()
+   {
+     SpriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
+     if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            else if ((Keyboard.GetState().IsKeyDown(Keys.Z)==true) & (IsTitleScreenShown=true))
+            {
+                DrawDetectScreen();
+                IsDetectedScreenShown = true;
+                IsTitleScreenShown = false;
+                IsControlsScreenShown = false;
+                
+                
+                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+
+                 {
+                   DrawTitleScreen();
+                   IsDetectedScreenShown = false;
+                   IsTitleScreenShown = true; 
+                   IsControlsScreenShown = false;
+                 }
+            
+
+            }
+
+            else if ((Keyboard.GetState().IsKeyDown(Keys.E)==true) & (IsTitleScreenShown=true))
+            {
+                DrawControlScreen();
+                IsDetectedScreenShown = false;
+                IsTitleScreenShown = false;
+                IsControlsScreenShown = true;
+                
+                
+                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+
+                 {
+                   DrawTitleScreen();
+                   IsDetectedScreenShown = false;
+                   IsTitleScreenShown = true; 
+                   IsControlsScreenShown = false;
+                 }
+            
+
+            }
+
+   }
+
+
+
+
+
 
         private void ScreenCollision()
         {
@@ -418,6 +627,29 @@ namespace monJeu
 
             SpriteBatch.Begin();
 
+            
+
+
+             if(IsDetectedScreenShown)
+            {
+                DrawDetectScreen();
+                SpriteBatch.DrawString(font, "Score: " + score, new Vector2(450, 315), Color.White);
+            }
+            else if(IsTitleScreenShown)
+            {
+                DrawTitleScreen();
+                IsPaused = true;
+                
+            }
+            else if (IsControlsScreenShown)
+            {
+                DrawControlScreen();
+            }
+
+
+
+            else
+            {
             player.Draw(SpriteBatch);
 
             foreach (var ghost in ghostsArr)
@@ -434,6 +666,45 @@ namespace monJeu
             {
                 coin.Draw(SpriteBatch);
             }
+            }
+
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+            {
+                IsTitleScreenShown = true;
+                IsDetectedScreenShown = false;
+                DrawTitleScreen();
+            
+                
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+            {
+                IsPaused = true;
+                
+                
+              
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.V)==true)
+            {
+               
+
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
+                if(currentTime >= 1)                                            //
+            {                                                                   //    
+            SaveScore();                                                        //
+            currentTime = 0;                                                    //
+                }                                                               //
+  
+            }
+        if (IsPaused == true & (IsTitleScreenShown == false)& (IsControlsScreenShown == false)& (IsDetectedScreenShown == false))
+        {
+                DrawPausedBackground();
+        }
+            
+
+
 
             SpriteBatch.End();
 

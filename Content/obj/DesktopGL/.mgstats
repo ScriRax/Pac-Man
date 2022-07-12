@@ -1,2 +1,2 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/xampp/htdocs/Pac-Man/Content/coinsfx.wav","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/coinsfx.xnb","SoundEffectProcessor","SoundEffectContent",42466,42271,2,9438195
+"C:/Users/cover/Desktop/projet_net/Pac-Man/Content/Score.spritefont","C:/Users/cover/Desktop/projet_net/Pac-Man/Content/bin/DesktopGL/Score.xnb","FontDescriptionProcessor","SpriteFontContent",2008,21538,0,2321969
