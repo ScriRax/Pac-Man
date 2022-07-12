@@ -1,1 +1,18 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"c:/xampp/htdocs/Pac-Man/Content/coin.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/coin.xnb","TextureProcessor","Texture2DContent",137,1109,0,6048876
+"c:/xampp/htdocs/Pac-Man/Content/coinsfx.wav","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/coinsfx.xnb","SoundEffectProcessor","SoundEffectContent",42466,42271,2,652695
+"c:/xampp/htdocs/Pac-Man/Content/debug-rec.jpg","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/debug-rec.xnb","TextureProcessor","Texture2DContent",19275,34681,0,006643
+"c:/xampp/htdocs/Pac-Man/Content/Ghost_Blue_Right.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Ghost_Blue_Right.xnb","TextureProcessor","Texture2DContent",275,4985,0,0029925
+"c:/xampp/htdocs/Pac-Man/Content/Ghost_Orange_Right.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Ghost_Orange_Right.xnb","TextureProcessor","Texture2DContent",268,4985,0,0027978
+"c:/xampp/htdocs/Pac-Man/Content/Ghost_Pink_Right.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Ghost_Pink_Right.xnb","TextureProcessor","Texture2DContent",272,4985,0,0042306
+"c:/xampp/htdocs/Pac-Man/Content/Ghost_Red_Right.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Ghost_Red_Right.xnb","TextureProcessor","Texture2DContent",255,4985,0,0039264
+"c:/xampp/htdocs/Pac-Man/Content/hitsfx.wav","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/hitsfx.xnb","SoundEffectProcessor","SoundEffectContent",28494,28555,2,3657746
+"c:/xampp/htdocs/Pac-Man/Content/Pac_Down.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Down.xnb","TextureProcessor","Texture2DContent",200,4441,0,0069426
+"c:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Idle.xnb","TextureProcessor","Texture2DContent",170,4441,0,0049183
+"c:/xampp/htdocs/Pac-Man/Content/Pac_Left.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Left.xnb","TextureProcessor","Texture2DContent",204,4441,0,0044215
+"c:/xampp/htdocs/Pac-Man/Content/Pac_Right.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Right.xnb","TextureProcessor","Texture2DContent",214,4441,0,0039143
+"c:/xampp/htdocs/Pac-Man/Content/Pac_Up.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Up.xnb","TextureProcessor","Texture2DContent",200,4441,0,0047321
+"c:/xampp/htdocs/Pac-Man/Content/pacman-sprite.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/pacman-sprite.xnb","TextureProcessor","Texture2DContent",34443,3515701,0,220798
+"c:/xampp/htdocs/Pac-Man/Content/stage.mp3","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/stage.xnb","SongProcessor","SongContent",4964100,123,8,297439
+"c:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/TestFont.xnb","LocalizedFontProcessor","SpriteFontContent",2426,956,0,2118522
+"c:/xampp/htdocs/Pac-Man/Content/WallPac.png","c:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/WallPac.xnb","TextureProcessor","Texture2DContent",25375,216309,0,0169348
