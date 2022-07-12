@@ -3,7 +3,7 @@
   <SourceFile>C:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png</SourceFile>
   <SourceTime>2022-05-13T16:19:50.7618732+02:00</SourceTime>
   <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Pac_Idle.xnb</DestFile>
-  <DestTime>2022-07-12T09:55:19.3925274+02:00</DestTime>
+  <DestTime>2022-07-12T11:15:09.4670763+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

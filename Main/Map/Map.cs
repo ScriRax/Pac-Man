@@ -630,5 +630,23 @@ namespace monJeu
             };
             #endregion
         }
+
+        public List<Coin> LoadCoin(ContentManager content)
+        {
+            var coinTexture = content.Load<Texture2D>("coin");
+
+            #region Coins
+            return new List<Coin>() {
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(180,10),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(100,10),
+                },
+            };
+            #endregion
+        }
     }
 }

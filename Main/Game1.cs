@@ -15,10 +15,11 @@ namespace monJeu
         private List<Walls> wallsArr;
         private List<Ghost> ghostsArr;
         private List<Intersection> interArr;
+        private List<Coin> coinArr;
         private Intersection previousInter;
         public static int ScreenWidth = 1024;
         public static int ScreenHeight = 768;
-        private SoundEffect hitSound;
+        private List<SoundEffect> Sfx;
         private Random r = new Random();
         Pacman player = new Pacman();
         Map mapWalls = new Map();
@@ -29,6 +30,7 @@ namespace monJeu
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
+            Sfx = new List<SoundEffect>();
         }
 
         protected override void Initialize()
@@ -49,7 +51,8 @@ namespace monJeu
             MediaPlayer.Volume = 0.0f;
             MediaPlayer.IsRepeating = true;
 
-            hitSound = Content.Load<SoundEffect>("hitsfx");
+            Sfx.Add(Content.Load<SoundEffect>("hitsfx"));
+            Sfx.Add(Content.Load<SoundEffect>("coinsfx"));
 
             ghostsArr = new List<Ghost>()
             {
@@ -70,8 +73,8 @@ namespace monJeu
 
             player.LoadPac(Content);
             wallsArr = mapWalls.LoadWalls(Content);
-
             interArr = mapWalls.LoadIntersection(Content);
+            coinArr = mapWalls.LoadCoin(Content);
         }
 
         protected override void Update(GameTime gameTime)
@@ -84,6 +87,7 @@ namespace monJeu
             IntersectionCollisionGhost(ghostsArr);
             WallsGhostsCollision();
             TouchingGhost();
+            CollectingCoin();
 
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
@@ -283,6 +287,21 @@ namespace monJeu
             }
         }
 
+        public void CollectingCoin()
+        {
+            for(int i = coinArr.Count - 1; i >= 0; i-- )
+            {
+                if ((Collision.IsTouchingCoinLeft(player, coinArr[i])) ||
+                (Collision.IsTouchingCoinRight(player, coinArr[i])) ||
+                (Collision.IsTouchingCoinTop(player, coinArr[i])) ||
+                (Collision.IsTouchingCoinBottom(player, coinArr[i])))
+                {
+                    Sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
+                    coinArr.Remove(coinArr[i]);
+                }
+            }
+        }
+
         public void WallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
@@ -384,7 +403,7 @@ namespace monJeu
                 (Collision.IsPlayerTouchingGhostBottom(player, ghost)))
                 {
                     player.Vie = player.Vie - 1;
-                    hitSound.Play();
+                    Sfx[0].Play();
                     player.Velocity.X = 0;
                     player.Velocity.Y = 0;
                     player.Position.X = 0;
@@ -411,9 +430,9 @@ namespace monJeu
                 wall.Draw(SpriteBatch);
             }
 
-            foreach (var inter in interArr)
+            foreach (var coin in coinArr)
             {
-                inter.Draw(SpriteBatch);
+                coin.Draw(SpriteBatch);
             }
 
             SpriteBatch.End();

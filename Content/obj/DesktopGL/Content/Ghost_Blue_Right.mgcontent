@@ -3,7 +3,7 @@
   <SourceFile>C:/xampp/htdocs/Pac-Man/Content/Ghost_Blue_Right.png</SourceFile>
   <SourceTime>2022-06-23T08:38:49.6925911+02:00</SourceTime>
   <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/Ghost_Blue_Right.xnb</DestFile>
-  <DestTime>2022-07-12T09:55:19.3144001+02:00</DestTime>
+  <DestTime>2022-07-12T11:15:06.7152979+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

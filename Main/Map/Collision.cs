@@ -127,5 +127,37 @@ namespace monJeu
             ghost.GhostRec.Right > wall.WallRec.Left &&
             ghost.GhostRec.Left < wall.WallRec.Right;
       }
+
+      public static bool IsTouchingCoinLeft(Pacman player, Coin coin)
+      {
+          return player.PlayerRec.Right + player.Velocity.X > coin.CoinRec.Left &&
+            player.PlayerRec.Left < coin.CoinRec.Left &&
+            player.PlayerRec.Bottom > coin.CoinRec.Top &&
+            player.PlayerRec.Top < coin.CoinRec.Bottom;
+      }
+
+      public static bool IsTouchingCoinRight(Pacman player, Coin coin)
+      {
+          return player.PlayerRec.Left + player.Velocity.X < coin.CoinRec.Right &&
+            player.PlayerRec.Right > coin.CoinRec.Right &&
+            player.PlayerRec.Bottom > coin.CoinRec.Top &&
+            player.PlayerRec.Top < coin.CoinRec.Bottom;
+      }
+
+      public static bool IsTouchingCoinTop(Pacman player, Coin coin)
+      {
+          return player.PlayerRec.Bottom + player.Velocity.Y > coin.CoinRec.Top &&
+            player.PlayerRec.Top < coin.CoinRec.Top &&
+            player.PlayerRec.Right > coin.CoinRec.Left &&
+            player.PlayerRec.Left < coin.CoinRec.Right;
+      }
+
+      public static bool IsTouchingCoinBottom(Pacman player, Coin coin)
+      {
+          return player.PlayerRec.Top + player.Velocity.Y < coin.CoinRec.Bottom &&
+            player.PlayerRec.Bottom > coin.CoinRec.Bottom &&
+            player.PlayerRec.Right > coin.CoinRec.Left &&
+            player.PlayerRec.Left < coin.CoinRec.Right;
+      }
     }
 }
