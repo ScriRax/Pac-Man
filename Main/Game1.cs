@@ -32,11 +32,12 @@ namespace monJeu
 
         public Texture2D PausedBackground;
 
+        public Texture2D GameOverBackground;
+
         private SpriteFont font;
-        public int score = 23;
+        public int score = 0;
         private float currentTime;
-        
-        
+
 
         bool IsDetectedScreenShown;
         bool IsTitleScreenShown;
@@ -44,6 +45,8 @@ namespace monJeu
         bool IsControlsScreenShown;
 
         bool IsPaused;
+
+        bool IsGameOver;
 
         bool IsPaudesSoBackground;
 
@@ -106,12 +109,15 @@ namespace monJeu
             DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
             ControlScreenBackground = Content.Load<Texture2D>("Tuto_Monoman");
             PausedBackground = Content.Load<Texture2D>("pause");
+            GameOverBackground = Content.Load<Texture2D>("Gameover");
 
             IsDetectedScreenShown = false;
             IsTitleScreenShown = true;
             IsControlsScreenShown= false;
             IsPaudesSoBackground = false;
+            IsGameOver = false;
             font = Content.Load<SpriteFont>("Score");
+            
 
 
         }
@@ -152,8 +158,6 @@ namespace monJeu
                    
                  }
 
-    
-            
 
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Enter)== true)
@@ -221,6 +225,9 @@ private void UpdtateTitleScreen()
         IsDetectedScreenShown = false;
         IsControlsScreenShown = false;
         IsPaused = false;
+        IsGameOver = false;
+        player.Vie = 3;
+        score = 0;
         
     }
     
@@ -233,27 +240,21 @@ private void UpdtateTitleScreen()
         SpriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;
         
    }
-
+//Fonction qui va draw le screen des controls
    private void DrawControlScreen()
    {
     SpriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
    }
-
+// Fonction qui va afficher le bouton pause quand le jeu est en pause
 private void DrawPausedBackground()
 {
-        SpriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White) ;
+        SpriteBatch.Draw(PausedBackground, new Vector2(250,300) ,null, Color.White,0f,Vector2.Zero,0.5f, SpriteEffects.None, 0f) ;
 }
 
 
-
-private void UpdateControlScreen()
+private void DrawGameOver()
 {
-    if(Keyboard.GetState().IsKeyDown(Keys.E)==true)
-    {
-        IsDetectedScreenShown = false;
-        IsTitleScreenShown = false;
-        IsTitleScreenShown = true;
-    }
+    SpriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
 }
 
 
@@ -507,6 +508,7 @@ private void UpdateControlScreen()
                 {
                     Sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
                     coinArr.Remove(coinArr[i]);
+                    score += 5000;
                 }
             }
         }
@@ -627,6 +629,8 @@ private void UpdateControlScreen()
 
             SpriteBatch.Begin();
 
+    
+
             
 
 
@@ -646,10 +650,18 @@ private void UpdateControlScreen()
                 DrawControlScreen();
             }
 
+            else if(IsGameOver)
+            {
+                DrawGameOver();
+                
+            }
+
 
 
             else
             {
+
+            
             player.Draw(SpriteBatch);
 
             foreach (var ghost in ghostsArr)
@@ -660,7 +672,11 @@ private void UpdateControlScreen()
             foreach (var wall in wallsArr)
             {
                 wall.Draw(SpriteBatch);
+                
             }
+            SpriteBatch.DrawString(font, "Score: " + score, new Vector2(900, 25), Color.White);
+            SpriteBatch.DrawString(font, "Vie: " + player.Vie, new Vector2(800, 25), Color.White);
+
 
             foreach (var coin in coinArr)
             {
@@ -673,6 +689,7 @@ private void UpdateControlScreen()
             {
                 IsTitleScreenShown = true;
                 IsDetectedScreenShown = false;
+                IsGameOver = false;
                 DrawTitleScreen();
             
                 
@@ -681,26 +698,39 @@ private void UpdateControlScreen()
             if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
             {
                 IsPaused = true;
-                
-                
               
             }
+
+
 
             if(Keyboard.GetState().IsKeyDown(Keys.V)==true)
             {
                
-
-                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
-                if(currentTime >= 1)                                            //
-            {                                                                   //    
-            SaveScore();                                                        //
-            currentTime = 0;                                                    //
-                }                                                               //
+                //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    
+                if(currentTime >= 1)                                            
+            {                                                                      
+            SaveScore();                                                        
+            currentTime = 0;                                                    
+                }                                                               
   
             }
         if (IsPaused == true & (IsTitleScreenShown == false)& (IsControlsScreenShown == false)& (IsDetectedScreenShown == false))
         {
                 DrawPausedBackground();
+        }
+
+        if (player.Vie < 1)
+        {
+
+            IsGameOver = true;
+            foreach(var Ghost in ghostsArr)
+                {
+                    Ghost.PositionG.X = 602;
+                    Ghost.PositionG.Y = 620;
+                }
+
+            
         }
             
 

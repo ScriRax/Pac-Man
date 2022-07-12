@@ -117,3 +117,4 @@ C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\Tuto_M
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\pause.xnb
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\File.xnb
 C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\Score.xnb
+C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\Gameover.xnb
