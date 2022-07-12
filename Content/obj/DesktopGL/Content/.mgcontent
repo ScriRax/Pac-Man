@@ -4,23 +4,25 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/xampp/htdocs/Pac-Man/Content/debug-rec.jpg</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Blue_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Orange_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Pink_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Ghost_Red_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/hitsfx.wav</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Down.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Idle.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Left.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Right.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/Pac_Up.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/pacman-sprite.png</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/stage.mp3</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/TestFont.spritefont</File>
-    <File>C:/xampp/htdocs/Pac-Man/Content/WallPac.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Classement_Monoman.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Ghost_Blue_Right.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Ghost_Red_Right.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Mono-man_Menu.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/NewMenu_Monoman.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Pac_Down.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Pac_Idle.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Pac_Left.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Pac_Right.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Pac_Up.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/pacman-sprite.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/pause.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Score.spritefont</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/stage.mp3</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/Tuto_Monoman.png</File>
+    <File>C:/Users/cover/Desktop/Pac-Man-add_collision/Content/WallPac.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File xsi:nil="true" />

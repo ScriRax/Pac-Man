@@ -1,2 +1,2 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/xampp/htdocs/Pac-Man/Content/hitsfx.wav","C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/hitsfx.xnb","SoundEffectProcessor","SoundEffectContent",28494,28555,2,9295616
+"C:/Users/cover/Desktop/Pac-Man-add_collision/Content/pause.png","C:/Users/cover/Desktop/Pac-Man-add_collision/Content/bin/DesktopGL/pause.xnb","TextureProcessor","Texture2DContent",10406,1048661,0,1782845

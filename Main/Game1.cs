@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Media;
-using Microsoft.Xna.Framework.Audio;
+using System.IO;
 
 namespace monJeu
 {
@@ -13,14 +13,33 @@ namespace monJeu
         private GraphicsDeviceManager Graphics;
         private SpriteBatch SpriteBatch;
         private List<Walls> wallsArr;
-        private List<Ghost> ghostsArr;
-        private List<Intersection> interArr;
-        private Intersection previousInter;
         public static int ScreenWidth = 1024;
         public static int ScreenHeight = 768;
-        private SoundEffect hitSound;
-        private Random r = new Random();
         Pacman player = new Pacman();
+        Ghost redGhost = new Ghost("red");
+        Ghost blueGhost = new Ghost("blue");
+
+       public Texture2D DetectScreenBackground;
+        public Texture2D DetectTitleScreenBackground;
+        public Texture2D ControlScreenBackground;
+
+        public Texture2D PausedBackground;
+
+        private SpriteFont font;
+        public int score = 23;
+        private float currentTime;
+        
+        
+
+        bool IsDetectedScreenShown;
+        bool IsTitleScreenShown;
+
+        bool IsControlsScreenShown;
+
+        bool IsPaused;
+
+        bool IsPaudesSoBackground;
+
         Map mapWalls = new Map();
         Song mainSong;
 
@@ -28,7 +47,7 @@ namespace monJeu
         {
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-            IsMouseVisible = true;
+            IsMouseVisible = true;        
         }
 
         protected override void Initialize()
@@ -37,69 +56,147 @@ namespace monJeu
             Graphics.PreferredBackBufferWidth = ScreenWidth;
             Graphics.ApplyChanges();
             base.Initialize();
-            previousInter = interArr[1];
         }
 
         protected override void LoadContent()
         {
             SpriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
             this.mainSong = Content.Load<Song>("stage");
             MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 0.0f;
             MediaPlayer.IsRepeating = true;
 
-            hitSound = Content.Load<SoundEffect>("hitsfx");
-
-            ghostsArr = new List<Ghost>()
-            {
-                new Ghost("red") {
-                },
-                new Ghost("blue") {
-                },
-                new Ghost("pink") {
-                },
-                new Ghost("orange") {
-                },
-            };
-
-            foreach (var ghost in ghostsArr)
-            {
-                ghost.LoadGhost(Content);
-            }
-
             player.LoadPac(Content);
+            redGhost.LoadGhost(Content);
+            blueGhost.LoadGhost(Content);
+            //_font = Content.Load<SpriteFont>("TestFont");
             wallsArr = mapWalls.LoadWalls(Content);
+            
 
-            interArr = mapWalls.LoadIntersection(Content);
+            DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
+            DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
+            ControlScreenBackground = Content.Load<Texture2D>("Tuto_Monoman");
+            PausedBackground = Content.Load<Texture2D>("pause");
+
+            IsDetectedScreenShown = false;
+            IsTitleScreenShown = true;
+            IsControlsScreenShown= false;
+            IsPaudesSoBackground = false;
+            font = Content.Load<SpriteFont>("Score");
+
+
+            
+
         }
+
 
         protected override void Update(GameTime gameTime)
         {
-            player.Move();
 
-            ScreenCollision();
-            ScreenCollisionGhost(ghostsArr);
-            WallsCollision(wallsArr);
-            IntersectionCollisionGhost(ghostsArr);
-            WallsGhostsCollision();
-            TouchingGhost();
-
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (IsPaused == false)
             {
-                Exit();
-            }
+                 player.Move();
 
-            foreach (var ghost in ghostsArr)
+                 ScreenCollision();
+
+                 WallsCollision(wallsArr);
+           
+                 player.Position += player.Velocity;
+
+                 player.Velocity = Vector2.Zero;
+
+            
+            
+           
+
+                 if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+                 {
+                        IsPaused = true;
+                   
+                 }
+
+    
+            
+
+            }
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter)== true)
+                {
+                    IsPaused = false;
+                }
+                 if(IsTitleScreenShown)
             {
-                ghost.PositionG += ghost.Velocity;
+                UpdtateTitleScreen();
             }
-
-            player.Position += player.Velocity;
-            player.Velocity = Vector2.Zero;
-
+            
             base.Update(gameTime);
         }
+
+//Fonction qui met a jour le screen Detect en fonction de l'input du joueur 
+        private void UpDateDetectScreen()
+        {
+
+           
+           
+            if(Keyboard.GetState().IsKeyDown(Keys.Back) == true)
+            {
+                
+                IsTitleScreenShown = false;
+                IsDetectedScreenShown = true;
+                IsControlsScreenShown=false;
+                
+            }
+        }
+
+
+ //Fonction de sauvegarde du score dans un fichier txt       
+private void SaveScore()
+{
+    var path = @"C:\Users\Public\Score_monogame.txt";
+
+  
+    if (!File.Exists(path))
+    {
+      File.Create(path);
+      TextWriter tw = new StreamWriter(path);
+      tw.WriteLine("Score: " + score);
+      tw.Close();
+    }
+    else if (File.Exists(path))
+    {
+      using (var tw = new StreamWriter(path, true))
+      {
+        tw.WriteLine("Score: " + score);
+        tw.Close();
+      }
+    }
+
+}
+
+//Fonction qui va update l'ecran de titre pour passer a l'ecran de jeu si on appuie sur A
+private void UpdtateTitleScreen()
+{
+    if (Keyboard.GetState().IsKeyDown(Keys.A)== true)
+    {
+        IsTitleScreenShown = false;
+        IsDetectedScreenShown = false;
+        IsControlsScreenShown = false;
+        IsPaused = false;
+        
+    }
+    
+}
+
+private void UpdateControlScreen()
+{
+    if(Keyboard.GetState().IsKeyDown(Keys.E)==true)
+    {
+        IsDetectedScreenShown = false;
+        IsTitleScreenShown = false;
+        IsTitleScreenShown = true;
+    }
+}
+
 
         private void ScreenCollision()
         {
@@ -121,304 +218,200 @@ namespace monJeu
             }
         }
 
-        private void IntersectionCollisionGhost(List<Ghost> ghosts)
+        protected bool IsTouchingLeft(Walls wall)
         {
-            foreach (var inter in interArr)
-            {
-                if (inter.Position != previousInter.Position)
-                {
-                    foreach (var ghost in ghostsArr)
-                    {
-                        int direction = r.Next(1, 4);
-                        if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeftInter(inter, ghost))
-                        {
-                            previousInter = inter;
-                            ghost.Velocity.X = 0;
-                            switch (direction)
-                            {
-                                case 1:
-                                    ghost.Velocity.X = 1;
-                                    break;
-                                case 2:
-                                    ghost.Velocity.Y = -1;
-                                    break;
-                                case 3:
-                                    ghost.Velocity.Y = 1;
-                                    break;
-                            }
-                        }
-                        else if (ghost.Velocity.X < 0 && Collision.IsGhostTouchingRightInter(inter, ghost))
-                        {
-                            previousInter = inter;
-                            ghost.Velocity.X = 0;
-                            switch (direction)
-                            {
-                                case 1:
-                                    ghost.Velocity.Y = 1;
-                                    break;
-                                case 2:
-                                    ghost.Velocity.X = -1;
-                                    break;
-                                case 3:
-                                    ghost.Velocity.Y = -1;
-                                    break;
-                            }
-                        }
-
-                        else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTopInter(inter, ghost))
-                        {
-                            previousInter = inter;
-                            ghost.Velocity.Y = 0;
-                            switch (direction)
-                            {
-                                case 1:
-                                    ghost.Velocity.Y = 1;
-                                    break;
-                                case 2:
-                                    ghost.Velocity.X = 1;
-                                    break;
-                                case 3:
-                                    ghost.Velocity.X = -1;
-                                    break;
-                            }
-                        }
-                        else if (ghost.Velocity.Y < 0 && Collision.IsGhostTouchingBottomInter(inter, ghost))
-                        {
-                            previousInter = inter;
-                            ghost.Velocity.Y = 0;
-                            switch (direction)
-                            {
-                                case 1:
-                                    ghost.Velocity.X = -1;
-                                    break;
-                                case 2:
-                                    ghost.Velocity.Y = -1;
-                                    break;
-                                case 3:
-                                    ghost.Velocity.X = 1;
-                                    break;
-                            }
-                        }
-                    }
-                }
-            }
+            return player.PlayerRec.Right + player.Velocity.X > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Left &&
+              player.PlayerRec.Bottom > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Bottom;
         }
 
-        private void ScreenCollisionGhost(List<Ghost> ghosts)
+        protected bool IsTouchingRight(Walls wall)
         {
-            foreach (var ghost in ghosts)
-            {
-                if (ghost.PositionG.X > Graphics.PreferredBackBufferWidth - 30)
-                {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.X = Graphics.PreferredBackBufferWidth - 30;
-                    ghost.Velocity.X = 0;
-                    switch (direction)
-                    {
-                        case 1:
-                            ghost.Velocity.X = -1;
-                            break;
-                        case 2:
-                            ghost.Velocity.Y = 1;
-                            break;
-                        case 3:
-                            ghost.Velocity.Y = -1;
-                            break;
-                    }
-                }
-                else if (ghost.PositionG.X < 0)
-                {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.X = 0;
-                    ghost.Velocity.X = 0;
-                    switch (direction)
-                    {
-                        case 1:
-                            ghost.Velocity.X = 1;
-                            break;
-                        case 2:
-                            ghost.Velocity.Y = 1;
-                            break;
-                        case 3:
-                            ghost.Velocity.Y = -1;
-                            break;
-                    }
-                }
-                if (ghost.PositionG.Y > Graphics.PreferredBackBufferHeight - 30)
-                {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.Y = Graphics.PreferredBackBufferHeight - 30;
-                    ghost.Velocity.Y = 0;
-                    switch (direction)
-                    {
-                        case 1:
-                            ghost.Velocity.X = -1;
-                            break;
-                        case 2:
-                            ghost.Velocity.X = 1;
-                            break;
-                        case 3:
-                            ghost.Velocity.Y = -1;
-                            break;
-                    }
-                }
-                else if (ghost.PositionG.Y < 0)
-                {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.Y = 0;
-                    ghost.Velocity.Y = 0;
-                    switch (direction)
-                    {
-                        case 1:
-                            ghost.Velocity.X = -1;
-                            break;
-                        case 2:
-                            ghost.Velocity.X = 1;
-                            break;
-                        case 3:
-                            ghost.Velocity.Y = 1;
-                            break;
-                    }
-                }
-            }
+            return player.PlayerRec.Left + player.Velocity.X < wall.WallRec.Right &&
+              player.PlayerRec.Right > wall.WallRec.Right &&
+              player.PlayerRec.Bottom > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Bottom;
+        }
+
+        protected bool IsTouchingTop(Walls wall)
+        {
+            return player.PlayerRec.Bottom + player.Velocity.Y > wall.WallRec.Top &&
+              player.PlayerRec.Top < wall.WallRec.Top &&
+              player.PlayerRec.Right > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Right;
+        }
+
+        protected bool IsTouchingBottom(Walls wall)
+        {
+            return player.PlayerRec.Top + player.Velocity.Y < wall.WallRec.Bottom &&
+              player.PlayerRec.Bottom > wall.WallRec.Bottom &&
+              player.PlayerRec.Right > wall.WallRec.Left &&
+              player.PlayerRec.Left < wall.WallRec.Right;
         }
 
         public void WallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
             {
-                if ((player.Velocity.X > 0 && Collision.IsTouchingLeft(player, wall)) ||
-                (player.Velocity.X < 0 & Collision.IsTouchingRight(player, wall)))
+                if ((player.Velocity.X > 0 && this.IsTouchingLeft(wall)) ||
+                (player.Velocity.X < 0 & this.IsTouchingRight(wall)))
                     player.Velocity.X = 0;
 
-                if ((player.Velocity.Y > 0 && Collision.IsTouchingTop(player, wall)) ||
-                    (player.Velocity.Y < 0 & Collision.IsTouchingBottom(player, wall)))
+                if ((player.Velocity.Y > 0 && this.IsTouchingTop(wall)) ||
+                    (player.Velocity.Y < 0 & this.IsTouchingBottom(wall)))
                     player.Velocity.Y = 0;
             }
         }
 
-        public void WallsGhostsCollision()
-        {
-            foreach (var wall in wallsArr)
+//Fonction qui va draw le screen HighScore
+    private void DrawDetectScreen()
+    {
+        SpriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;
+        
+   }
+
+   private void DrawControlScreen()
+   {
+    SpriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
+   }
+
+private void DrawPausedBackground()
+{
+        SpriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White) ;
+}
+
+//Fonction qui draw l'ecran de titre 
+   private void DrawTitleScreen()
+   {
+     SpriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
+     if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
-                foreach (var ghost in ghostsArr)
-                {
-                    int direction = r.Next(1, 4);
-                    if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeft(wall, ghost))
-                    {
-
-                        ghost.Velocity.X = 0;
-                        switch (direction)
-                        {
-                            case 1:
-                                ghost.Velocity.X = -1;
-                                break;
-                            case 2:
-                                ghost.Velocity.Y = -1;
-                                break;
-                            case 3:
-                                ghost.Velocity.Y = 1;
-                                break;
-                        }
-                    }
-                    else if (ghost.Velocity.X < 0 && Collision.IsGhostTouchingRight(wall, ghost))
-                    {
-                        ghost.Velocity.X = 0;
-                        switch (direction)
-                        {
-                            case 1:
-                                ghost.Velocity.X = 1;
-                                break;
-                            case 2:
-                                ghost.Velocity.Y = 1;
-                                break;
-                            case 3:
-                                ghost.Velocity.Y = -1;
-                                break;
-                        }
-                    }
-
-                    else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTop(wall, ghost))
-                    {
-                        ghost.Velocity.Y = 0;
-                        switch (direction)
-                        {
-                            case 1:
-                                ghost.Velocity.X = -1;
-                                break;
-                            case 2:
-                                ghost.Velocity.X = 1;
-                                break;
-                            case 3:
-                                ghost.Velocity.Y = 1;
-                                break;
-                        }
-                    }
-                    else if (ghost.Velocity.Y < 0 && Collision.IsGhostTouchingBottom(wall, ghost))
-                    {
-                        ghost.Velocity.Y = 0;
-                        switch (direction)
-                        {
-                            case 1:
-                                ghost.Velocity.X = -1;
-                                break;
-                            case 2:
-                                ghost.Velocity.X = 1;
-                                break;
-                            case 3:
-                                ghost.Velocity.Y = -1;
-                                break;
-                        }
-                    }
-                }
+                Exit();
             }
-        }
 
-        public void TouchingGhost()
-        {
-            foreach (var ghost in ghostsArr)
+            else if ((Keyboard.GetState().IsKeyDown(Keys.Z)==true) & (IsTitleScreenShown=true))
             {
-                if ((Collision.IsPlayerTouchingGhostLeft(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostRight(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostTop(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostBottom(player, ghost)))
-                {
-                    player.Vie = player.Vie - 1;
-                    hitSound.Play();
-                    player.Velocity.X = 0;
-                    player.Velocity.Y = 0;
-                    player.Position.X = 0;
-                    player.Position.Y = 0;
-                }
-            }
-        }
+                DrawDetectScreen();
+                IsDetectedScreenShown = true;
+                IsTitleScreenShown = false;
+                IsControlsScreenShown = false;
+                
+                
+                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
 
+                 {
+                   DrawTitleScreen();
+                   IsDetectedScreenShown = false;
+                   IsTitleScreenShown = true; 
+                   IsControlsScreenShown = false;
+                 }
+            
+
+            }
+
+            else if ((Keyboard.GetState().IsKeyDown(Keys.E)==true) & (IsTitleScreenShown=true))
+            {
+                DrawControlScreen();
+                IsDetectedScreenShown = false;
+                IsTitleScreenShown = false;
+                IsControlsScreenShown = true;
+                
+                
+                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+
+                 {
+                   DrawTitleScreen();
+                   IsDetectedScreenShown = false;
+                   IsTitleScreenShown = true; 
+                   IsControlsScreenShown = false;
+                 }
+            
+
+            }
+
+   }
         protected override void Draw(GameTime gameTime)
         {
+
+            
+            
             GraphicsDevice.Clear(Color.Black);
 
             SpriteBatch.Begin();
+    
+            
+            
 
-            player.Draw(SpriteBatch);
-
-            foreach (var ghost in ghostsArr)
+            if(IsDetectedScreenShown)
             {
-                ghost.Draw(SpriteBatch);
+                DrawDetectScreen();
+                SpriteBatch.DrawString(font, "Score: " + score, new Vector2(450, 315), Color.White);
+            }
+            else if(IsTitleScreenShown)
+            {
+                DrawTitleScreen();
+                IsPaused = true;
+                
+            }
+            else if (IsControlsScreenShown)
+            {
+                DrawControlScreen();
             }
 
+            
+            else 
+            {
+                    player.Draw(SpriteBatch);
+            blueGhost.Draw(SpriteBatch);
             foreach (var wall in wallsArr)
             {
                 wall.Draw(SpriteBatch);
             }
 
-            foreach (var inter in interArr)
-            {
-                inter.Draw(SpriteBatch);
             }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+            {
+                IsTitleScreenShown = true;
+                IsDetectedScreenShown = false;
+                DrawTitleScreen();
+            
+                
+            }
+
+            if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+            {
+                IsPaused = true;
+                
+                
+              
+            }
+
+            if(Keyboard.GetState().IsKeyDown(Keys.V)==true)
+            {
+               
+
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
+                if(currentTime >= 1)                                            //
+            {                                                                   //    
+            SaveScore();                                                        //
+            currentTime = 0;                                                    //
+                }                                                               //
+  
+            }
+        if (IsPaused == true & (IsTitleScreenShown == false)& (IsControlsScreenShown == false)& (IsDetectedScreenShown == false))
+        {
+                DrawPausedBackground();
+        }
+            
 
             SpriteBatch.End();
 
             base.Draw(gameTime);
+            }
+            
         }
-    }
 }
+
+

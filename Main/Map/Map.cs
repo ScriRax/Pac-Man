@@ -1,11 +1,12 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
+using System;
 using System.Collections.Generic;
 
 namespace monJeu
 {
-    public class Map
+    public class Map 
     {
         public List<Walls> LoadWalls(ContentManager content)
         {
@@ -72,7 +73,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(100,100),
-                },
+                },               
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(100,215),
@@ -84,7 +85,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(115,580),
-                },
+                },                   
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(140,330),
@@ -128,7 +129,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(255,350),
-                },
+                },            
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(255,460),
@@ -136,7 +137,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(255,530),
-                },
+                },              
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(255,580),
@@ -188,15 +189,15 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(330,100),
-                },
+                }, 
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(355,35),
-                },
+                },            
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(355,100),
-                },
+                },               
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(355,215),
@@ -228,11 +229,11 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(435,330),
-                },
+                }, 
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(435,400),
-                },
+                },                          
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(435,470),
@@ -240,11 +241,11 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(505,330),
-                },
+                },  
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(505,400),
-                },
+                },                            
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(505,470),
@@ -272,7 +273,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(515,665),
-                },
+                },            
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(535,0),
@@ -296,7 +297,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(585,665),
-                },
+                },           
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(600,0),
@@ -304,11 +305,11 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(630,330),
-                },
+                },  
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(630,400),
-                },
+                },                            
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(630,470),
@@ -336,7 +337,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(655,440),
-                },
+                },               
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(655,510),
@@ -372,11 +373,11 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(740,0),
-                },
+                },  
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(765,580),
-                },
+                },                
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(765,690),
@@ -388,7 +389,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(810,0),
-                },
+                },  
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(835,580),
@@ -396,7 +397,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(835,690),
-                },
+                },               
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(835,700),
@@ -420,7 +421,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(840,215),
-                },
+                }, 
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(765,330),
@@ -484,7 +485,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(920,580),
-                },
+                },               
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(950,0),
@@ -492,7 +493,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(950,70),
-                },
+                },             
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(950,140),
@@ -504,7 +505,7 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(950,215),
-                },
+                }, 
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(970,0),
@@ -524,110 +525,16 @@ namespace monJeu
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(970,215),
-                },
+                }, 
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(970,690),
-                },
+                },             
                 new Walls(wallTexture)
                 {
                     Position = new Vector2(970,700),
                 },
                 };
-            #endregion
-        }
-
-        public List<Intersection> LoadIntersection(ContentManager content)
-        {
-            var interTexture = content.Load<Texture2D>("debug-rec");
-
-            #region Intersections
-            return new List<Intersection>() {
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(5,185),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(185,5),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(185,185),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(185,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(225,433),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(405,433),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(300,5),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(300,185),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(505,185),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(505,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(622,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(600,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(737,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(737,553),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(737,663),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(483,663),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(483,555),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(600,555),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(890,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(920,300),
-                },
-                new Intersection(interTexture)
-                {
-                    Position = new Vector2(810,85),
-                },
-            };
             #endregion
         }
     }

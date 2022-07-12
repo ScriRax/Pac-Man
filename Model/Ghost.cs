@@ -2,30 +2,32 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using System;
+using System.Collections.Generic;
 
 namespace monJeu
 {
     public class Ghost
     {
-        public Vector2 PositionG;
-        public Texture2D GhostTexture;
+        private Vector2 positionG;
+        private Texture2D ghostTexture;
         public string GhostColor;
         //public int speed;
-        public Vector2 Velocity = new Vector2(1,0);
         public Rectangle GhostRec
         {
             get
             {
-                return new Rectangle((int)PositionG.X, (int)PositionG.Y, 30, 30);
+                return new Rectangle((int)positionG.X, (int)positionG.Y, ghostTexture.Width, ghostTexture.Height);
             }
         }
         Random rand = new Random();
 
-        public Ghost(string color)
+        public Ghost(string color/*, int speed*/)
         {
+            //this.speed = speed;
             this.GhostColor = color;
-            PositionG.X = 602;//rand.Next(1024);
-            PositionG.Y = 620;//rand.Next(768);
+
+            positionG.X = 602;//rand.Next(1024);
+            positionG.Y = 620;//rand.Next(768);
         }
 
         public void LoadGhost(ContentManager content)
@@ -33,28 +35,23 @@ namespace monJeu
             switch (this.GhostColor)
             {
                 case "blue":
-                    GhostTexture = content.Load<Texture2D>("Ghost_Blue_Right");
+                    ghostTexture = content.Load<Texture2D>("Ghost_Blue_Right");
                     break;
                 case "red":
-                    GhostTexture = content.Load<Texture2D>("Ghost_Red_Right");
+                    ghostTexture = content.Load<Texture2D>("Ghost_Red_Right");
                     break;
                 case "pink":
-                    GhostTexture = content.Load<Texture2D>("Ghost_Pink_Right");
+                    ghostTexture = content.Load<Texture2D>("Ghost_Pink");
                     break;
                 case "orange":
-                    GhostTexture = content.Load<Texture2D>("Ghost_Orange_Right");
+                    ghostTexture = content.Load<Texture2D>("Ghost_Orange");
                     break;
             }
         }
 
-        // public void UpdateLocation()
-        // {
-        //     Velocity.X = 18;
-        // }
-
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(GhostTexture, PositionG, null, Color.White, 0f, Vector2.Zero, 0.8f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(ghostTexture, positionG, Color.White);
         }
     }
 }

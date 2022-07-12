@@ -2,6 +2,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace monJeu
 {
@@ -22,7 +24,6 @@ namespace monJeu
         public Texture2D PacmanTextureDown;
         public Vector2 Position;
         public Vector2 Velocity;
-        public int Vie = 3;
         public Rectangle PlayerRec
         {
             get
@@ -47,6 +48,7 @@ namespace monJeu
             {
                 currentSpriteState = SpriteState.Top;
                 Velocity.Y -= 4;
+            
 
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
