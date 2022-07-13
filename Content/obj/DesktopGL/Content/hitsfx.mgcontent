@@ -3,7 +3,7 @@
   <SourceFile>C:/xampp/htdocs/Pac-Man/Content/hitsfx.wav</SourceFile>
   <SourceTime>2022-07-12T10:50:49.6173147+02:00</SourceTime>
   <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/hitsfx.xnb</DestFile>
-  <DestTime>2022-07-12T18:35:37.6834869+02:00</DestTime>
+  <DestTime>2022-07-13T08:31:36.5443532+02:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>

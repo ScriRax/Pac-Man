@@ -3,7 +3,7 @@
   <SourceFile>C:/xampp/htdocs/Pac-Man/Content/coinsfx.wav</SourceFile>
   <SourceTime>2022-07-12T11:39:11.4108883+02:00</SourceTime>
   <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Content/coinsfx.xnb</DestFile>
-  <DestTime>2022-07-12T18:34:57.4115627+02:00</DestTime>
+  <DestTime>2022-07-13T08:31:33.5240381+02:00</DestTime>
   <Importer>WavImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>SoundEffectProcessor</Processor>
