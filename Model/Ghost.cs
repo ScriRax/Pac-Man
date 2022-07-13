@@ -8,9 +8,9 @@ namespace monJeu
     public class Ghost
     {
         public Vector2 PositionG;
-        public Texture2D GhostTexture;
-        public string GhostColor;
-        public Vector2 Velocity = new Vector2(1, 0);
+        public Texture2D GhostTexture {get; set;}
+        public string GhostColor {get; set;}
+        public Vector2 Velocity = new Vector2(1,0);
         public Rectangle GhostRec
         {
             get

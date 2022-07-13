@@ -7,7 +7,7 @@ namespace monJeu
     {
         private Texture2D texture;
         private Color CoinColor = Color.White;
-        public Vector2 Position;
+        public Vector2 Position {get; set;}
         public Coin(Texture2D interTexture)
         {
             texture = interTexture;

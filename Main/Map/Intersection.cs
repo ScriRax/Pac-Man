@@ -7,9 +7,9 @@ namespace monJeu
     {
         private Texture2D texture;
         private Color interColor = Color.White;
-        public Vector2 Position;
+        public Vector2 Position {get; set;}
         public Intersection(Texture2D interTexture)
-        {
+        {   
             texture = interTexture;
         }
         public Rectangle WallRec

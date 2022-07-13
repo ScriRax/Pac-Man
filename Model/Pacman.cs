@@ -15,14 +15,14 @@ namespace monJeu
     }
     public class Pacman
     {
-        public Texture2D PacmanTextureRight;
-        public Texture2D PacmanTextureLeft;
-        public Texture2D PacmanTextureIdle;
-        public Texture2D PacmanTextureTop;
-        public Texture2D PacmanTextureDown;
+        public Texture2D PacmanTextureRight {get; set;}
+        public Texture2D PacmanTextureLeft {get; set;}
+        public Texture2D PacmanTextureIdle {get; set;}
+        public Texture2D PacmanTextureTop {get; set;}
+        public Texture2D PacmanTextureDown {get; set;}
         public Vector2 Position;
         public Vector2 Velocity;
-        public int Vie = 3;
+        public int Vie {get; set;} = 3;
         public Rectangle PlayerRec
         {
             get
@@ -31,6 +31,7 @@ namespace monJeu
             }
         }
         SpriteState currentSpriteState = SpriteState.Idle;
+        
 
         public void LoadPac(ContentManager content)
         {
@@ -40,7 +41,6 @@ namespace monJeu
             PacmanTextureDown = content.Load<Texture2D>("Pac_Down");
             PacmanTextureIdle = content.Load<Texture2D>("Pac_Idle");
         }
-
         public void Move()
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))

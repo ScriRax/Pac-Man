@@ -18,8 +18,8 @@ namespace monJeu
         private List<Intersection> interArr;
         private List<Coin> coinArr;
         private Intersection previousInter;
-        public static int ScreenWidth = 1024;
-        public static int ScreenHeight = 768;
+        public static int ScreenWidth {get; set;} = 1024;
+        public static int ScreenHeight {get; set;} = 768;
         private List<SoundEffect> sfx;
         private List<int> classements;
         private Random r = new Random();
@@ -27,15 +27,22 @@ namespace monJeu
         Map mapWalls = new Map();
         Song mainSong;
 
-        public Texture2D DetectScreenBackground;
-        public Texture2D DetectTitleScreenBackground;
-        public Texture2D ControlScreenBackground;
-        public Texture2D VictoryBackground;
-        public Texture2D PausedBackground;
-        public Texture2D GameOverBackground;
+        public Texture2D DetectScreenBackground {get; set;}
+        public Texture2D DetectTitleScreenBackground {get; set;}
+        public Texture2D ControlScreenBackground {get; set;}
+
+        public Texture2D VictoryBackground {get; set;}
+
+        public Texture2D PausedBackground {get; set;}
+
+        public Texture2D GameOverBackground {get; set;}
+
         private SpriteFont font;
         private int score = 0;
         private float currentTime;
+
+        private int classement;
+
         bool IsDetectedScreenShown;
         bool IsTitleScreenShown;
         bool IsControlsScreenShown;
@@ -43,8 +50,6 @@ namespace monJeu
         bool IsPaused;
         bool IsGameOver;
         bool IsPaudesSoBackground;
-
-        GamePadState currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
         public Game1()
         {
@@ -239,20 +244,23 @@ namespace monJeu
         {
             spriteBatch.Draw(ControlScreenBackground, Vector2.Zero, Color.White);
         }
+private void DrawGameOver()
+{
+    spriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
+}
+private void DrawVictory()
+{
+    spriteBatch.Draw(VictoryBackground,Vector2.Zero, Color.White);
+    player.Position.X = 0;
+    player.Position.Y = 0;
+    player.Velocity.X = 0;
+    player.Velocity.Y = 0;
+}
 
         // Fonction qui va afficher le bouton pause quand le jeu est en pause
         private void DrawPausedBackground()
         {
             spriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White);
-        }
-
-        private void DrawGameOver()
-        {
-            spriteBatch.Draw(GameOverBackground, Vector2.Zero, Color.White);
-        }
-        private void DrawVictory()
-        {
-            spriteBatch.Draw(VictoryBackground, Vector2.Zero, Color.White);
         }
 
         //Fonction qui draw l'ecran de titre 
@@ -497,7 +505,9 @@ namespace monJeu
             }
             if (coinArr.Count <= 0)
             {
-                //IsVictoryScreenShown = true;
+                IsVictoryScreenShown = true;
+                coinArr = mapWalls.LoadCoin(Content);
+                
             }
         }
 
