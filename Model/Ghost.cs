@@ -10,7 +10,6 @@ namespace monJeu
         public Vector2 PositionG;
         public Texture2D GhostTexture;
         public string GhostColor;
-        //public int speed;
         public Vector2 Velocity = new Vector2(1,0);
         public Rectangle GhostRec
         {
@@ -19,7 +18,6 @@ namespace monJeu
                 return new Rectangle((int)PositionG.X, (int)PositionG.Y, 30, 30);
             }
         }
-        Random rand = new Random();
 
         public Ghost(string color)
         {
@@ -46,11 +44,6 @@ namespace monJeu
                     break;
             }
         }
-
-        // public void UpdateLocation()
-        // {
-        //     Velocity.X = 18;
-        // }
 
         public void Draw(SpriteBatch spriteBatch)
         {

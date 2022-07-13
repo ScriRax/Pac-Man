@@ -12,7 +12,7 @@ namespace monJeu
     public class Game1 : Game
     {
         private GraphicsDeviceManager Graphics;
-        private SpriteBatch SpriteBatch;
+        private SpriteBatch spriteBatch;
         private List<Walls> wallsArr;
         private List<Ghost> ghostsArr;
         private List<Intersection> interArr;
@@ -20,7 +20,7 @@ namespace monJeu
         private Intersection previousInter;
         public static int ScreenWidth = 1024;
         public static int ScreenHeight = 768;
-        private List<SoundEffect> Sfx;
+        private List<SoundEffect> sfx;
         private Random r = new Random();
         Pacman player = new Pacman();
         Map mapWalls = new Map();
@@ -30,12 +30,14 @@ namespace monJeu
         public Texture2D DetectTitleScreenBackground;
         public Texture2D ControlScreenBackground;
 
+        public Texture2D VictoryBackground;
+
         public Texture2D PausedBackground;
 
         public Texture2D GameOverBackground;
 
         private SpriteFont font;
-        public int score = 0;
+        private int score = 0;
         private float currentTime;
 
 
@@ -44,11 +46,15 @@ namespace monJeu
 
         bool IsControlsScreenShown;
 
+        bool IsVictoryScreenShown;
+
         bool IsPaused;
 
         bool IsGameOver;
 
         bool IsPaudesSoBackground;
+
+         GamePadState currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
 
 
@@ -57,7 +63,7 @@ namespace monJeu
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            Sfx = new List<SoundEffect>();
+            sfx = new List<SoundEffect>();
         }
 
         protected override void Initialize()
@@ -72,15 +78,15 @@ namespace monJeu
 
         protected override void LoadContent()
         {
-            SpriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch = new SpriteBatch(GraphicsDevice);
 
             this.mainSong = Content.Load<Song>("stage");
             MediaPlayer.Play(mainSong);
             MediaPlayer.Volume = 0.0f;
             MediaPlayer.IsRepeating = true;
 
-            Sfx.Add(Content.Load<SoundEffect>("hitsfx"));
-            Sfx.Add(Content.Load<SoundEffect>("coinsfx"));
+            sfx.Add(Content.Load<SoundEffect>("hitsfx"));
+            sfx.Add(Content.Load<SoundEffect>("coinsfx"));
 
             ghostsArr = new List<Ghost>()
             {
@@ -108,70 +114,61 @@ namespace monJeu
              DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
             DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
             ControlScreenBackground = Content.Load<Texture2D>("Tuto_Monoman");
-            PausedBackground = Content.Load<Texture2D>("pause");
-            GameOverBackground = Content.Load<Texture2D>("Gameover");
+            PausedBackground = Content.Load<Texture2D>("newPause");
+            GameOverBackground = Content.Load<Texture2D>("newGameover");
+            VictoryBackground = Content.Load<Texture2D>("victory");
 
             IsDetectedScreenShown = false;
             IsTitleScreenShown = true;
             IsControlsScreenShown= false;
             IsPaudesSoBackground = false;
             IsGameOver = false;
+            IsVictoryScreenShown = false;
+
             font = Content.Load<SpriteFont>("Score");
-            
-
-
         }
 
         protected override void Update(GameTime gameTime)
         {
-            
-
             if (IsPaused == false)
             {
-
                 player.Move();
 
-            ScreenCollision();
-            ScreenCollisionGhost(ghostsArr);
-            WallsCollision(wallsArr);
-            IntersectionCollisionGhost(ghostsArr);
-            WallsGhostsCollision();
-            TouchingGhost();
-            CollectingCoin();
+                IsTouchingScreenCollision();
+                IsTouchingGhostScreenCollision(ghostsArr);
+                GetWallsCollision(wallsArr);
+                GetIntersectionCollisionGhost(ghostsArr);
+                GetWallsGhostsCollision();
+                TouchingGhost();
+                CollectingCoin();
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    Exit();
+                }
 
-            foreach (var ghost in ghostsArr)
-            {
-                ghost.PositionG += ghost.Velocity;
-            }
+                foreach (var ghost in ghostsArr)
+                {
+                    ghost.PositionG += ghost.Velocity;
+                }
 
-            player.Position += player.Velocity;
-            player.Velocity = Vector2.Zero;
+                player.Position += player.Velocity;
+                player.Velocity = Vector2.Zero;
 
-             if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
-                 {
-                        IsPaused = true;
-                   
-                 }
-
-
+                if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+                {
+                    IsPaused = true;
+                }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Enter)== true)
-                {
-                    IsPaused = false;
-                }
-                 if(IsTitleScreenShown)
+            {
+                IsPaused = false;
+            }
+            if(IsTitleScreenShown)
             {
                 UpdtateTitleScreen();
             }
             
-
-
-
             base.Update(gameTime);
         }
 
@@ -179,16 +176,11 @@ namespace monJeu
 //Fonction qui met a jour le screen Detect en fonction de l'input du joueur 
         private void UpDateDetectScreen()
         {
-
-           
-           
             if(Keyboard.GetState().IsKeyDown(Keys.Back) == true)
-            {
-                
+            { 
                 IsTitleScreenShown = false;
                 IsDetectedScreenShown = true;
                 IsControlsScreenShown=false;
-                
             }
         }
 
@@ -196,7 +188,6 @@ namespace monJeu
 private void SaveScore()
 {
     var path = @"C:\Users\Public\Score_monogame.txt";
-
   
     if (!File.Exists(path))
     {
@@ -213,7 +204,6 @@ private void SaveScore()
         tw.Close();
       }
     }
-
 }
 
 //Fonction qui va update l'ecran de titre pour passer a l'ecran de jeu si on appuie sur A
@@ -226,67 +216,70 @@ private void UpdtateTitleScreen()
         IsControlsScreenShown = false;
         IsPaused = false;
         IsGameOver = false;
+        IsVictoryScreenShown = false;
+        
+    }  
+    if (IsGameOver == true)
+    {
         player.Vie = 3;
         score = 0;
-        
+         coinArr = mapWalls.LoadCoin(Content);
     }
-    
 }
 
-
 //Fonction qui va draw le screen HighScore
-    private void DrawDetectScreen()
-    {
-        SpriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;
-        
-   }
+private void DrawDetectScreen()
+{
+    spriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;   
+}
+
 //Fonction qui va draw le screen des controls
-   private void DrawControlScreen()
-   {
-    SpriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
-   }
+private void DrawControlScreen()
+{
+    spriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
+}
+
 // Fonction qui va afficher le bouton pause quand le jeu est en pause
 private void DrawPausedBackground()
 {
-        SpriteBatch.Draw(PausedBackground, new Vector2(250,300) ,null, Color.White,0f,Vector2.Zero,0.5f, SpriteEffects.None, 0f) ;
+    spriteBatch.Draw(PausedBackground, Vector2.Zero ,Color.White) ;
 }
-
 
 private void DrawGameOver()
 {
-    SpriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
+    spriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
 }
-
-
+private void DrawVictory()
+{
+    spriteBatch.Draw(VictoryBackground,Vector2.Zero, Color.White);
+}
 
 //Fonction qui draw l'ecran de titre 
    private void DrawTitleScreen()
    {
-     SpriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
-     if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-            {
-                Exit();
-            }
+        spriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
+        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            Exit();
+        }
 
-            else if ((Keyboard.GetState().IsKeyDown(Keys.Z)==true) & (IsTitleScreenShown=true))
-            {
-                DrawDetectScreen();
-                IsDetectedScreenShown = true;
-                IsTitleScreenShown = false;
-                IsControlsScreenShown = false;
-                
-                
-                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
-
-                 {
-                   DrawTitleScreen();
-                   IsDetectedScreenShown = false;
-                   IsTitleScreenShown = true; 
-                   IsControlsScreenShown = false;
-                 }
+        else if ((Keyboard.GetState().IsKeyDown(Keys.Z)==true) & (IsTitleScreenShown=true))
+        {
+            DrawDetectScreen();
+            IsDetectedScreenShown = true;
+            IsTitleScreenShown = false;
+            IsControlsScreenShown = false;
             
+            if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+            {
+                DrawTitleScreen();
+                IsDetectedScreenShown = false;
+                IsTitleScreenShown = true; 
+                IsControlsScreenShown = false;
+                IsVictoryScreenShown = false;
 
             }
+        }
 
             else if ((Keyboard.GetState().IsKeyDown(Keys.E)==true) & (IsTitleScreenShown=true))
             {
@@ -295,27 +288,18 @@ private void DrawGameOver()
                 IsTitleScreenShown = false;
                 IsControlsScreenShown = true;
                 
-                
-                 if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
-
-                 {
-                   DrawTitleScreen();
-                   IsDetectedScreenShown = false;
-                   IsTitleScreenShown = true; 
-                   IsControlsScreenShown = false;
-                 }
-            
-
+                if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+                {
+                    DrawTitleScreen();
+                    IsDetectedScreenShown = false;
+                    IsTitleScreenShown = true; 
+                    IsControlsScreenShown = false;
+                }
             }
-
    }
 
 
-
-
-
-
-        private void ScreenCollision()
+        private void IsTouchingScreenCollision()
         {
             if (player.Position.X > Graphics.PreferredBackBufferWidth - player.PacmanTextureIdle.Width)
             {
@@ -335,7 +319,7 @@ private void DrawGameOver()
             }
         }
 
-        private void IntersectionCollisionGhost(List<Ghost> ghosts)
+        private void GetIntersectionCollisionGhost(List<Ghost> ghosts)
         {
             foreach (var inter in interArr)
             {
@@ -378,7 +362,6 @@ private void DrawGameOver()
                                     break;
                             }
                         }
-
                         else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTopInter(inter, ghost))
                         {
                             previousInter = inter;
@@ -418,7 +401,7 @@ private void DrawGameOver()
             }
         }
 
-        private void ScreenCollisionGhost(List<Ghost> ghosts)
+        private void IsTouchingGhostScreenCollision(List<Ghost> ghosts)
         {
             foreach (var ghost in ghosts)
             {
@@ -506,14 +489,20 @@ private void DrawGameOver()
                 (Collision.IsTouchingCoinTop(player, coinArr[i])) ||
                 (Collision.IsTouchingCoinBottom(player, coinArr[i])))
                 {
-                    Sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
+                    sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
                     coinArr.Remove(coinArr[i]);
                     score += 50;
                 }
             }
+            if(coinArr.Count <= 0)
+            {
+                IsVictoryScreenShown = true;
+                
+            }
+
         }
 
-        public void WallsCollision(List<Walls> wallsList)
+        public void GetWallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
             {
@@ -527,7 +516,7 @@ private void DrawGameOver()
             }
         }
 
-        public void WallsGhostsCollision()
+        public void GetWallsGhostsCollision()
         {
             foreach (var wall in wallsArr)
             {
@@ -614,7 +603,7 @@ private void DrawGameOver()
                 (Collision.IsPlayerTouchingGhostBottom(player, ghost)))
                 {
                     player.Vie = player.Vie - 1;
-                    Sfx[0].Play();
+                    sfx[0].Play();
                     player.Velocity.X = 0;
                     player.Velocity.Y = 0;
                     player.Position.X = 0;
@@ -626,119 +615,99 @@ private void DrawGameOver()
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-
-            SpriteBatch.Begin();
-
-    
-
-            
-
+            spriteBatch.Begin();
 
              if(IsDetectedScreenShown)
             {
                 DrawDetectScreen();
-                SpriteBatch.DrawString(font, "Score: " + score, new Vector2(450, 315), Color.White);
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(450, 315), Color.White);
             }
             else if(IsTitleScreenShown)
             {
                 DrawTitleScreen();
-                IsPaused = true;
-                
+                IsPaused = true;   
             }
             else if (IsControlsScreenShown)
             {
                 DrawControlScreen();
             }
-
             else if(IsGameOver)
             {
                 DrawGameOver();
-                
             }
-
-
-
+            else if(IsVictoryScreenShown)
+            {
+                DrawVictory();
+            }
             else
             {
+                player.Draw(spriteBatch);
 
-            
-            player.Draw(SpriteBatch);
+                foreach (var ghost in ghostsArr)
+                {
+                    ghost.Draw(spriteBatch);
+                }
 
-            foreach (var ghost in ghostsArr)
-            {
-                ghost.Draw(SpriteBatch);
+                foreach (var wall in wallsArr)
+                {
+                    wall.Draw(spriteBatch); 
+                }
+
+                spriteBatch.DrawString(font, "Score: " + score, new Vector2(900, 25), Color.White);
+                spriteBatch.DrawString(font, "Vie: " + player.Vie, new Vector2(800, 25), Color.White);
+
+                foreach (var coin in coinArr)
+                {
+                    coin.Draw(spriteBatch);
+                }
             }
-
-            foreach (var wall in wallsArr)
-            {
-                wall.Draw(SpriteBatch);
-                
-            }
-            SpriteBatch.DrawString(font, "Score: " + score, new Vector2(900, 25), Color.White);
-            SpriteBatch.DrawString(font, "Vie: " + player.Vie, new Vector2(800, 25), Color.White);
-
-
-            foreach (var coin in coinArr)
-            {
-                coin.Draw(SpriteBatch);
-            }
-            }
-
 
             if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
             {
                 IsTitleScreenShown = true;
                 IsDetectedScreenShown = false;
                 IsGameOver = false;
-                DrawTitleScreen();
-            
-                
+                IsVictoryScreenShown = false;
+                DrawTitleScreen();  
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
             {
                 IsPaused = true;
-              
             }
-
-
 
             if(Keyboard.GetState().IsKeyDown(Keys.V)==true)
             {
-               
                 //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
                 currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    
+
                 if(currentTime >= 1)                                            
-            {                                                                      
-            SaveScore();                                                        
-            currentTime = 0;                                                    
+                {                                                                      
+                    SaveScore();                                                        
+                    currentTime = 0;                                                    
                 }                                                               
-  
             }
+
         if (IsPaused == true & (IsTitleScreenShown == false)& (IsControlsScreenShown == false)& (IsDetectedScreenShown == false))
         {
-                DrawPausedBackground();
+            DrawPausedBackground();
         }
 
         if (player.Vie < 1)
         {
-
             IsGameOver = true;
             foreach(var Ghost in ghostsArr)
                 {
                     Ghost.PositionG.X = 602;
                     Ghost.PositionG.Y = 620;
+                    
                 }
-
-            
+                
         }
-            
+        
 
-
-
-            SpriteBatch.End();
-
-            base.Draw(gameTime);
+        spriteBatch.End();
+        base.Draw(gameTime);
         }
     }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PipelineBuildEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-  <SourceFile>C:/xampp/htdocs/Pac-Man/Content/Ghost_Orange_Right.png</SourceFile>
-  <SourceTime>2022-06-24T16:51:42.3772941+02:00</SourceTime>
-  <DestFile>C:/xampp/htdocs/Pac-Man/Content/bin/DesktopGL/Ghost_Orange_Right.xnb</DestFile>
-  <DestTime>2022-07-12T18:34:33.9391614+02:00</DestTime>
+  <SourceFile>C:/Users/cover/Desktop/projet_net/Pac-Man/Content/Ghost_Orange_Right.png</SourceFile>
+  <SourceTime>2022-07-12T11:55:01.8512634+02:00</SourceTime>
+  <DestFile>C:/Users/cover/Desktop/projet_net/Pac-Man/Content/bin/DesktopGL/Ghost_Orange_Right.xnb</DestFile>
+  <DestTime>2022-07-13T09:02:31.4889689+02:00</DestTime>
   <Importer>TextureImporter</Importer>
   <ImporterTime>2020-08-10T18:17:54+02:00</ImporterTime>
   <Processor>TextureProcessor</Processor>

@@ -126,3 +126,6 @@ C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\pause.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\piece-pacman.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Score.xnb
 C:\xampp\htdocs\Pac-Man\bin\Debug\netcoreapp3.1\Content\Tuto_Monoman.xnb
+C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\newGameover.xnb
+C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\newPause.xnb
+C:\Users\cover\Desktop\projet_net\Pac-Man\bin\Debug\netcoreapp3.1\Content\victory.xnb

@@ -20,10 +20,9 @@ namespace monJeu
             }
         }
 
-        public void Draw(SpriteBatch wallsBatch)
-        {
-            wallsBatch.Draw(texture, Position, null ,interColor, 0f, Vector2.Zero, 0.25f, SpriteEffects.None, 0f);
-        }
+        // public void Draw(SpriteBatch wallsBatch)
+        // {
+        //     wallsBatch.Draw(texture, Position, null ,interColor, 0f, Vector2.Zero, 0.25f, SpriteEffects.None, 0f);
+        // }
     }
-
 }
