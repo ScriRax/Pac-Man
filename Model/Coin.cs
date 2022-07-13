@@ -22,7 +22,7 @@ namespace monJeu
 
         public void Draw(SpriteBatch wallsBatch)
         {
-            wallsBatch.Draw(texture, Position, null ,CoinColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            wallsBatch.Draw(texture, Position, null, CoinColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace monJeu
         public Vector2 PositionG;
         public Texture2D GhostTexture;
         public string GhostColor;
-        public Vector2 Velocity = new Vector2(1,0);
+        public Vector2 Velocity = new Vector2(1, 0);
         public Rectangle GhostRec
         {
             get

@@ -108,7 +108,7 @@ namespace monJeu
 
             IsDetectedScreenShown = false;
             IsTitleScreenShown = true;
-            IsControlsScreenShown= false;
+            IsControlsScreenShown = false;
             IsPaudesSoBackground = false;
             IsGameOver = false;
             IsVictoryScreenShown = false;
@@ -143,159 +143,161 @@ namespace monJeu
                 player.Position += player.Velocity;
                 player.Velocity = Vector2.Zero;
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+                if (Keyboard.GetState().IsKeyDown(Keys.Space) == true)
                 {
                     IsPaused = true;
                 }
             }
-            if (Keyboard.GetState().IsKeyDown(Keys.Enter)== true)
+            if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
             {
                 IsPaused = false;
             }
-            if(IsTitleScreenShown)
+            if (IsTitleScreenShown)
             {
                 UpdtateTitleScreen();
             }
-            
+
             base.Update(gameTime);
         }
 
 
-//Fonction qui met a jour le screen Detect en fonction de l'input du joueur 
+        //Fonction qui met a jour le screen Detect en fonction de l'input du joueur 
         private void UpDateDetectScreen()
         {
-            if(Keyboard.GetState().IsKeyDown(Keys.Back) == true)
-            { 
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
+            {
                 IsTitleScreenShown = false;
                 IsDetectedScreenShown = true;
-                IsControlsScreenShown=false;
-            }
-        }
-
- //Fonction de sauvegarde du score dans un fichier txt       
-private void SaveScore()
-{
-    var path = @"C:\Users\Public\Score_monogame.txt";
-  
-    if (!File.Exists(path))
-    {
-      File.Create(path);
-      TextWriter tw = new StreamWriter(path);
-      tw.WriteLine("Score: " + score);
-      tw.Close();
-    }
-    else if (File.Exists(path))
-    {
-      using (var tw = new StreamWriter(path, true))
-      {
-        tw.WriteLine("Score: " + score);
-        tw.Close();
-      }
-    }
-}
-
-//Fonction qui va update l'ecran de titre pour passer a l'ecran de jeu si on appuie sur A
-private void UpdtateTitleScreen()
-{
-    if (Keyboard.GetState().IsKeyDown(Keys.A)== true)
-    {
-        IsTitleScreenShown = false;
-        IsDetectedScreenShown = false;
-        IsControlsScreenShown = false;
-        IsPaused = false;
-        IsGameOver = false;
-        IsVictoryScreenShown = false;
-        
-    }  
-    if (IsGameOver == true)
-    {
-        player.Vie = 3;
-        if (classements.Count >= 5)
-        {        
-            if (score > classements[1])
-            {    
-                classements.Remove(classements[1]);
-                classements.Add(score);
-            }
-        } else {
-            classements.Add(score);
-        }
-        classements.Sort();
-        score = 0;
-        coinArr = mapWalls.LoadCoin(Content);
-    }
-}
-
-//Fonction qui va draw le screen HighScore
-private void DrawDetectScreen()
-{
-    spriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White) ;   
-}
-
-//Fonction qui va draw le screen des controls
-private void DrawControlScreen()
-{
-    spriteBatch.Draw(ControlScreenBackground,Vector2.Zero, Color.White);
-}
-
-// Fonction qui va afficher le bouton pause quand le jeu est en pause
-private void DrawPausedBackground()
-{
-    spriteBatch.Draw(PausedBackground, Vector2.Zero ,Color.White) ;
-}
-
-private void DrawGameOver()
-{
-    spriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
-}
-private void DrawVictory()
-{
-    spriteBatch.Draw(VictoryBackground,Vector2.Zero, Color.White);
-}
-
-//Fonction qui draw l'ecran de titre 
-   private void DrawTitleScreen()
-   {
-        spriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
-        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-        {
-            Exit();
-        }
-
-        else if ((Keyboard.GetState().IsKeyDown(Keys.Z)==true) & (IsTitleScreenShown=true))
-        {
-            DrawDetectScreen();
-            IsDetectedScreenShown = true;
-            IsTitleScreenShown = false;
-            IsControlsScreenShown = false;
-            
-            if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
-            {
-                DrawTitleScreen();
-                IsDetectedScreenShown = false;
-                IsTitleScreenShown = true; 
                 IsControlsScreenShown = false;
+            }
+        }
+
+        //Fonction de sauvegarde du score dans un fichier txt       
+        private void SaveScore()
+        {
+            var path = @"C:\Users\Public\Score_monogame.txt";
+
+            if (!File.Exists(path))
+            {
+                File.Create(path);
+                TextWriter tw = new StreamWriter(path);
+                tw.WriteLine("Score: " + score);
+                tw.Close();
+            }
+            else if (File.Exists(path))
+            {
+                using (var tw = new StreamWriter(path, true))
+                {
+                    tw.WriteLine("Score: " + score);
+                    tw.Close();
+                }
+            }
+        }
+
+        //Fonction qui va update l'ecran de titre pour passer a l'ecran de jeu si on appuie sur A
+        private void UpdtateTitleScreen()
+        {
+            if (Keyboard.GetState().IsKeyDown(Keys.A) == true)
+            {
+                IsTitleScreenShown = false;
+                IsDetectedScreenShown = false;
+                IsControlsScreenShown = false;
+                IsPaused = false;
+                IsGameOver = false;
                 IsVictoryScreenShown = false;
 
             }
+            if (IsGameOver == true)
+            {
+                player.Vie = 3;
+                if (classements.Count >= 5)
+                {
+                    if (score > classements[1])
+                    {
+                        classements.Remove(classements[1]);
+                        classements.Add(score);
+                    }
+                }
+                else
+                {
+                    classements.Add(score);
+                }
+                classements.Sort();
+                score = 0;
+                coinArr = mapWalls.LoadCoin(Content);
+            }
         }
 
-            else if ((Keyboard.GetState().IsKeyDown(Keys.E)==true) & (IsTitleScreenShown=true))
+        //Fonction qui va draw le screen HighScore
+        private void DrawDetectScreen()
+        {
+            spriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White);
+        }
+
+        //Fonction qui va draw le screen des controls
+        private void DrawControlScreen()
+        {
+            spriteBatch.Draw(ControlScreenBackground, Vector2.Zero, Color.White);
+        }
+
+        // Fonction qui va afficher le bouton pause quand le jeu est en pause
+        private void DrawPausedBackground()
+        {
+            spriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White);
+        }
+
+        private void DrawGameOver()
+        {
+            spriteBatch.Draw(GameOverBackground, Vector2.Zero, Color.White);
+        }
+        private void DrawVictory()
+        {
+            spriteBatch.Draw(VictoryBackground, Vector2.Zero, Color.White);
+        }
+
+        //Fonction qui draw l'ecran de titre 
+        private void DrawTitleScreen()
+        {
+            spriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
+            if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+            {
+                Exit();
+            }
+
+            else if ((Keyboard.GetState().IsKeyDown(Keys.Z) == true) & (IsTitleScreenShown = true))
+            {
+                DrawDetectScreen();
+                IsDetectedScreenShown = true;
+                IsTitleScreenShown = false;
+                IsControlsScreenShown = false;
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
+                {
+                    DrawTitleScreen();
+                    IsDetectedScreenShown = false;
+                    IsTitleScreenShown = true;
+                    IsControlsScreenShown = false;
+                    IsVictoryScreenShown = false;
+
+                }
+            }
+
+            else if ((Keyboard.GetState().IsKeyDown(Keys.E) == true) & (IsTitleScreenShown = true))
             {
                 DrawControlScreen();
                 IsDetectedScreenShown = false;
                 IsTitleScreenShown = false;
                 IsControlsScreenShown = true;
-                
-                if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+
+                if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
                 {
                     DrawTitleScreen();
                     IsDetectedScreenShown = false;
-                    IsTitleScreenShown = true; 
+                    IsTitleScreenShown = true;
                     IsControlsScreenShown = false;
                 }
             }
-   }
+        }
 
 
         private void IsTouchingScreenCollision()
@@ -479,9 +481,9 @@ private void DrawVictory()
             }
         }
 
-        public void CollectingCoin()
+        private void CollectingCoin()
         {
-            for(int i = coinArr.Count - 1; i >= 0; i-- )
+            for (int i = coinArr.Count - 1; i >= 0; i--)
             {
                 if ((Collision.IsTouchingCoinLeft(player, coinArr[i])) ||
                 (Collision.IsTouchingCoinRight(player, coinArr[i])) ||
@@ -493,13 +495,13 @@ private void DrawVictory()
                     score += 50;
                 }
             }
-            if(coinArr.Count <= 0)
+            if (coinArr.Count <= 0)
             {
                 //IsVictoryScreenShown = true;
             }
         }
 
-        public void GetWallsCollision(List<Walls> wallsList)
+        private void GetWallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
             {
@@ -513,7 +515,7 @@ private void DrawVictory()
             }
         }
 
-        public void GetWallsGhostsCollision()
+        private void GetWallsGhostsCollision()
         {
             foreach (var wall in wallsArr)
             {
@@ -590,7 +592,7 @@ private void DrawVictory()
             }
         }
 
-        public void TouchingGhost()
+        private void TouchingGhost()
         {
             foreach (var ghost in ghostsArr)
             {
@@ -609,36 +611,45 @@ private void DrawVictory()
             }
         }
 
+        // private void SaveGame() 
+        // {
+        //     player.Position;
+        //     score;
+        //     player.Vie;
+        // }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
 
-            if(IsDetectedScreenShown)
+            if (IsDetectedScreenShown)
             {
                 DrawDetectScreen();
-                if (classements.Count > 0) {
+                if (classements.Count > 0)
+                {
                     var i = 0;
-                    foreach (var classement in classements) {                     
+                    foreach (var classement in classements)
+                    {
                         spriteBatch.DrawString(font, "Score: " + classement, new Vector2(450, 315 + i), Color.White);
                         i += 30;
                     }
                 }
             }
-            else if(IsTitleScreenShown)
+            else if (IsTitleScreenShown)
             {
                 DrawTitleScreen();
-                IsPaused = true;   
+                IsPaused = true;
             }
             else if (IsControlsScreenShown)
             {
                 DrawControlScreen();
             }
-            else if(IsGameOver)
+            else if (IsGameOver)
             {
                 DrawGameOver();
             }
-            else if(IsVictoryScreenShown)
+            else if (IsVictoryScreenShown)
             {
                 DrawVictory();
             }
@@ -653,7 +664,7 @@ private void DrawVictory()
 
                 foreach (var wall in wallsArr)
                 {
-                    wall.Draw(spriteBatch); 
+                    wall.Draw(spriteBatch);
                 }
 
                 spriteBatch.DrawString(font, "Score: " + score, new Vector2(900, 25), Color.White);
@@ -665,49 +676,49 @@ private void DrawVictory()
                 }
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Back)== true)
+            if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
             {
                 IsTitleScreenShown = true;
                 IsDetectedScreenShown = false;
                 IsGameOver = false;
                 IsVictoryScreenShown = false;
-                DrawTitleScreen();  
+                DrawTitleScreen();
             }
 
-            if (Keyboard.GetState().IsKeyDown(Keys.Space)== true)
+            if (Keyboard.GetState().IsKeyDown(Keys.Space) == true)
             {
                 IsPaused = true;
             }
 
-            if(Keyboard.GetState().IsKeyDown(Keys.V)==true)
+            if (Keyboard.GetState().IsKeyDown(Keys.V) == true)
             {
                 //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
-                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;    
+                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if(currentTime >= 1)                                            
-                {                                                                      
+                if (currentTime >= 1)
+                {
                     SaveScore();
                     currentTime = 0;
-                }                                                               
+                }
             }
 
-        if (IsPaused == true & (IsTitleScreenShown == false)& (IsControlsScreenShown == false)& (IsDetectedScreenShown == false))
-        {
-            DrawPausedBackground();
-        }
+            if (IsPaused == true & (IsTitleScreenShown == false) & (IsControlsScreenShown == false) & (IsDetectedScreenShown == false))
+            {
+                DrawPausedBackground();
+            }
 
-        if (player.Vie < 1)
-        {
-            IsGameOver = true;
-            foreach(var Ghost in ghostsArr)
+            if (player.Vie < 1)
+            {
+                IsGameOver = true;
+                foreach (var Ghost in ghostsArr)
                 {
                     Ghost.PositionG.X = 602;
-                    Ghost.PositionG.Y = 620;                    
-                }               
-        }
-        
-        spriteBatch.End();
-        base.Draw(gameTime);
+                    Ghost.PositionG.Y = 620;
+                }
+            }
+
+            spriteBatch.End();
+            base.Draw(gameTime);
         }
     }
 }

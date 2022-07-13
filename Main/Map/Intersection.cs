@@ -18,7 +18,7 @@ namespace monJeu
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, 25, 25);
             }
-            set{}
+            set { }
         }
 
         // public void Draw(SpriteBatch wallsBatch)
