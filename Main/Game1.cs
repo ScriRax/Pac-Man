@@ -21,6 +21,7 @@ namespace monJeu
         public static int ScreenWidth = 1024;
         public static int ScreenHeight = 768;
         private List<SoundEffect> sfx;
+        private List<int> classements;
         private Random r = new Random();
         Pacman player = new Pacman();
         Map mapWalls = new Map();
@@ -29,34 +30,21 @@ namespace monJeu
         public Texture2D DetectScreenBackground;
         public Texture2D DetectTitleScreenBackground;
         public Texture2D ControlScreenBackground;
-
         public Texture2D VictoryBackground;
-
         public Texture2D PausedBackground;
-
         public Texture2D GameOverBackground;
-
         private SpriteFont font;
         private int score = 0;
         private float currentTime;
-
-
         bool IsDetectedScreenShown;
         bool IsTitleScreenShown;
-
         bool IsControlsScreenShown;
-
         bool IsVictoryScreenShown;
-
         bool IsPaused;
-
         bool IsGameOver;
-
         bool IsPaudesSoBackground;
 
-         GamePadState currentGamePadState = GamePad.GetState(PlayerIndex.One);
-
-
+        GamePadState currentGamePadState = GamePad.GetState(PlayerIndex.One);
 
         public Game1()
         {
@@ -64,6 +52,7 @@ namespace monJeu
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
             sfx = new List<SoundEffect>();
+            classements = new List<int>();
         }
 
         protected override void Initialize()
@@ -110,8 +99,7 @@ namespace monJeu
             interArr = mapWalls.LoadIntersection(Content);
             coinArr = mapWalls.LoadCoin(Content);
 
-
-             DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
+            DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
             DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
             ControlScreenBackground = Content.Load<Texture2D>("Tuto_Monoman");
             PausedBackground = Content.Load<Texture2D>("newPause");
@@ -222,8 +210,19 @@ private void UpdtateTitleScreen()
     if (IsGameOver == true)
     {
         player.Vie = 3;
+        if (classements.Count >= 5)
+        {        
+            if (score > classements[1])
+            {    
+                classements.Remove(classements[1]);
+                classements.Add(score);
+            }
+        } else {
+            classements.Add(score);
+        }
+        classements.Sort();
         score = 0;
-         coinArr = mapWalls.LoadCoin(Content);
+        coinArr = mapWalls.LoadCoin(Content);
     }
 }
 
@@ -496,10 +495,8 @@ private void DrawVictory()
             }
             if(coinArr.Count <= 0)
             {
-                IsVictoryScreenShown = true;
-                
+                //IsVictoryScreenShown = true;
             }
-
         }
 
         public void GetWallsCollision(List<Walls> wallsList)
@@ -617,10 +614,16 @@ private void DrawVictory()
             GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
 
-             if(IsDetectedScreenShown)
+            if(IsDetectedScreenShown)
             {
                 DrawDetectScreen();
-                spriteBatch.DrawString(font, "Score: " + score, new Vector2(450, 315), Color.White);
+                if (classements.Count > 0) {
+                    var i = 0;
+                    foreach (var classement in classements) {                     
+                        spriteBatch.DrawString(font, "Score: " + classement, new Vector2(450, 315 + i), Color.White);
+                        i += 30;
+                    }
+                }
             }
             else if(IsTitleScreenShown)
             {
@@ -683,8 +686,8 @@ private void DrawVictory()
 
                 if(currentTime >= 1)                                            
                 {                                                                      
-                    SaveScore();                                                        
-                    currentTime = 0;                                                    
+                    SaveScore();
+                    currentTime = 0;
                 }                                                               
             }
 
@@ -699,13 +702,10 @@ private void DrawVictory()
             foreach(var Ghost in ghostsArr)
                 {
                     Ghost.PositionG.X = 602;
-                    Ghost.PositionG.Y = 620;
-                    
-                }
-                
+                    Ghost.PositionG.Y = 620;                    
+                }               
         }
         
-
         spriteBatch.End();
         base.Draw(gameTime);
         }

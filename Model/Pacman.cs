@@ -46,22 +46,22 @@ namespace monJeu
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
                 currentSpriteState = SpriteState.Top;
-                Velocity.Y -= 10;
+                Velocity.Y -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
                 currentSpriteState = SpriteState.Down;
-                Velocity.Y += 10;
+                Velocity.Y += 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
                 currentSpriteState = SpriteState.Left;
-                Velocity.X -= 10;
+                Velocity.X -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
                 currentSpriteState = SpriteState.Right;
-                Velocity.X += 10;
+                Velocity.X += 2;
             }
         }
 
