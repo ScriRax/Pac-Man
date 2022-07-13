@@ -735,7 +735,7 @@ namespace monJeu
                 },
                 new Coin(coinTexture)
                 {
-                    Position = new Vector2(736,300),
+                    Position = new Vector2(738,300),
                 },
                 new Coin(coinTexture)
                 {
@@ -799,11 +799,11 @@ namespace monJeu
                 },
                 new Coin(coinTexture)
                 {
-                    Position = new Vector2(483,740),
+                    Position = new Vector2(483,745),
                 },
                 new Coin(coinTexture)
                 {
-                    Position = new Vector2(740,665),
+                    Position = new Vector2(738,665),
                 },
                 new Coin(coinTexture)
                 {
@@ -812,6 +812,158 @@ namespace monJeu
                 new Coin(coinTexture)
                 {
                     Position = new Vector2(912,665),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(185,485),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(95,485),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(10,485),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(10,572),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(10,659),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(10,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(120,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(238,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(302,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(365,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(547,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(611,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(675,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(738,393),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(738,486),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(738,745),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(365,662),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(120,662),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(180,662),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(235,662),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(225,435),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(315,435),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(225,345),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(738,552),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(815,552),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(892,552),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(892,393),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(892,486),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(622,85),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(715,85),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(810,85),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(810,150),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(810,220),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(622,150),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(622,220),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(922,85),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(922,150),
+                },
+                new Coin(coinTexture)
+                {
+                    Position = new Vector2(922,220),
                 },
             };
             #endregion
