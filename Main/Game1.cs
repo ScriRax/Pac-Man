@@ -11,78 +11,70 @@ namespace monJeu
 {
     public class Game1 : Game
     {
-        private GraphicsDeviceManager Graphics;
-        private SpriteBatch spriteBatch;
-        private List<Walls> wallsArr;
-        private List<Ghost> ghostsArr;
-        private List<Intersection> interArr;
-        private List<Coin> coinArr;
-        private Intersection previousInter;
-        public static int ScreenWidth {get; set;} = 1024;
-        public static int ScreenHeight {get; set;} = 768;
-        private List<SoundEffect> sfx;
-        private List<int> classements;
-        private Random r = new Random();
-        Pacman player = new Pacman();
-        Map mapWalls = new Map();
-        Song mainSong;
-
-        public Texture2D DetectScreenBackground {get; set;}
-        public Texture2D DetectTitleScreenBackground {get; set;}
-        public Texture2D ControlScreenBackground {get; set;}
-
-        public Texture2D VictoryBackground {get; set;}
-
-        public Texture2D PausedBackground {get; set;}
-
-        public Texture2D GameOverBackground {get; set;}
-
-        private SpriteFont font;
-        private int score = 0;
-        private float currentTime;
-
-        private int classement;
-
-        bool IsDetectedScreenShown;
-        bool IsTitleScreenShown;
-        bool IsControlsScreenShown;
-        bool IsVictoryScreenShown;
-        bool IsPaused;
-        bool IsGameOver;
-        bool IsPaudesSoBackground;
+        private GraphicsDeviceManager _graphics;
+        private SpriteBatch _spriteBatch;
+        private List<Walls> _wallsArr;
+        private List<Ghost> _ghostsArr;
+        private List<Intersection> _interArr;
+        private List<Coin> _coinArr;
+        private Intersection _previousInter;
+        public static int ScreenWidth { get; set; } = 1024;
+        public static int ScreenHeight { get; set; } = 768;
+        private List<SoundEffect> _sfx;
+        private List<int> _classements;
+        private Random _r = new Random();
+        private Pacman _player = new Pacman();
+        private Map _mapWalls = new Map();
+        private Song _mainSong;
+        public Texture2D DetectScreenBackground { get; set; }
+        public Texture2D DetectTitleScreenBackground { get; set; }
+        public Texture2D ControlScreenBackground { get; set; }
+        public Texture2D VictoryBackground { get; set; }
+        public Texture2D PausedBackground { get; set; }
+        public Texture2D GameOverBackground { get; set; }
+        private SpriteFont _font;
+        private int _score = 0;
+        private float _currentTime;
+        private bool _isDetectedScreenShown;
+        private bool _isTitleScreenShown;
+        private bool _isControlsScreenShown;
+        private bool _isVictoryScreenShown;
+        private bool _isPaused;
+        private bool _isGameOver;
+        private bool _isPaudesSoBackground;
 
         public Game1()
         {
-            Graphics = new GraphicsDeviceManager(this);
+            _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-            sfx = new List<SoundEffect>();
-            classements = new List<int>();
+            _sfx = new List<SoundEffect>();
+            _classements = new List<int>();
         }
 
         protected override void Initialize()
         {
-            Graphics.PreferredBackBufferHeight = ScreenHeight;
-            Graphics.PreferredBackBufferWidth = ScreenWidth;
-            Graphics.ApplyChanges();
+            _graphics.PreferredBackBufferHeight = ScreenHeight;
+            _graphics.PreferredBackBufferWidth = ScreenWidth;
+            _graphics.ApplyChanges();
             base.Initialize();
-            previousInter = interArr[1];
-            IsPaudesSoBackground = false;
+            _previousInter = _interArr[1];
+            _isPaudesSoBackground = false;
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-            this.mainSong = Content.Load<Song>("stage");
-            MediaPlayer.Play(mainSong);
-            MediaPlayer.Volume = 0.0f;
+            this._mainSong = Content.Load<Song>("stage");
+            MediaPlayer.Play(_mainSong);
+            MediaPlayer.Volume = 0.2f;
             MediaPlayer.IsRepeating = true;
 
-            sfx.Add(Content.Load<SoundEffect>("hitsfx"));
-            sfx.Add(Content.Load<SoundEffect>("coinsfx"));
+            _sfx.Add(Content.Load<SoundEffect>("hitsfx"));
+            _sfx.Add(Content.Load<SoundEffect>("coinsfx"));
 
-            ghostsArr = new List<Ghost>()
+            _ghostsArr = new List<Ghost>()
             {
                 new Ghost("red") {
                 },
@@ -94,15 +86,15 @@ namespace monJeu
                 },
             };
 
-            foreach (var ghost in ghostsArr)
+            foreach (var ghost in _ghostsArr)
             {
                 ghost.LoadGhost(Content);
             }
 
-            player.LoadPac(Content);
-            wallsArr = mapWalls.LoadWalls(Content);
-            interArr = mapWalls.LoadIntersection(Content);
-            coinArr = mapWalls.LoadCoin(Content);
+            _player.LoadPac(Content);
+            _wallsArr = _mapWalls.LoadWalls(Content);
+            _interArr = _mapWalls.LoadIntersection(Content);
+            _coinArr = _mapWalls.LoadCoin(Content);
 
             DetectScreenBackground = Content.Load<Texture2D>("Classement_Monoman");
             DetectTitleScreenBackground = Content.Load<Texture2D>("NewMenu_Monoman");
@@ -111,26 +103,26 @@ namespace monJeu
             GameOverBackground = Content.Load<Texture2D>("newGameover");
             VictoryBackground = Content.Load<Texture2D>("victory");
 
-            IsDetectedScreenShown = false;
-            IsTitleScreenShown = true;
-            IsControlsScreenShown = false;
-            IsPaudesSoBackground = false;
-            IsGameOver = false;
-            IsVictoryScreenShown = false;
+            _isDetectedScreenShown = false;
+            _isTitleScreenShown = true;
+            _isControlsScreenShown = false;
+            _isPaudesSoBackground = false;
+            _isGameOver = false;
+            _isVictoryScreenShown = false;
 
-            font = Content.Load<SpriteFont>("Score");
+            _font = Content.Load<SpriteFont>("Score");
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (IsPaused == false)
+            if (_isPaused == false)
             {
-                player.Move();
+                _player.Move();
 
                 IsTouchingScreenCollision();
-                IsTouchingGhostScreenCollision(ghostsArr);
-                GetWallsCollision(wallsArr);
-                GetIntersectionCollisionGhost(ghostsArr);
+                IsTouchingGhostScreenCollision(_ghostsArr);
+                GetWallsCollision(_wallsArr);
+                GetIntersectionCollisionGhost(_ghostsArr);
                 GetWallsGhostsCollision();
                 TouchingGhost();
                 CollectingCoin();
@@ -140,24 +132,24 @@ namespace monJeu
                     Exit();
                 }
 
-                foreach (var ghost in ghostsArr)
+                foreach (var ghost in _ghostsArr)
                 {
                     ghost.PositionG += ghost.Velocity;
                 }
 
-                player.Position += player.Velocity;
-                player.Velocity = Vector2.Zero;
+                _player.Position += _player.Velocity;
+                _player.Velocity = Vector2.Zero;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Space) == true)
                 {
-                    IsPaused = true;
+                    _isPaused = true;
                 }
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Enter) == true)
             {
-                IsPaused = false;
+                _isPaused = false;
             }
-            if (IsTitleScreenShown)
+            if (_isTitleScreenShown)
             {
                 UpdtateTitleScreen();
             }
@@ -171,9 +163,9 @@ namespace monJeu
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
             {
-                IsTitleScreenShown = false;
-                IsDetectedScreenShown = true;
-                IsControlsScreenShown = false;
+                _isTitleScreenShown = false;
+                _isDetectedScreenShown = true;
+                _isControlsScreenShown = false;
             }
         }
 
@@ -186,14 +178,14 @@ namespace monJeu
             {
                 File.Create(path);
                 TextWriter tw = new StreamWriter(path);
-                tw.WriteLine("Score: " + score);
+                tw.WriteLine("Score: " + _score);
                 tw.Close();
             }
             else if (File.Exists(path))
             {
                 using (var tw = new StreamWriter(path, true))
                 {
-                    tw.WriteLine("Score: " + score);
+                    tw.WriteLine("Score: " + _score);
                     tw.Close();
                 }
             }
@@ -204,105 +196,93 @@ namespace monJeu
         {
             if (Keyboard.GetState().IsKeyDown(Keys.A) == true)
             {
-                IsTitleScreenShown = false;
-                IsDetectedScreenShown = false;
-                IsControlsScreenShown = false;
-                IsPaused = false;
-                IsGameOver = false;
-                IsVictoryScreenShown = false;
+                _isTitleScreenShown = false;
+                _isDetectedScreenShown = false;
+                _isControlsScreenShown = false;
+                _isPaused = false;
+                _isGameOver = false;
+                _isVictoryScreenShown = false;
 
             }
-            if (IsGameOver == true)
+            if (_isGameOver == true)
             {
-                player.Vie = 3;
-                if (classements.Count >= 5)
-                {
-                    if (score > classements[1])
-                    {
-                        classements.Remove(classements[1]);
-                        classements.Add(score);
-                    }
-                }
-                else
-                {
-                    classements.Add(score);
-                }
-                classements.Sort();
-                score = 0;
-                coinArr = mapWalls.LoadCoin(Content);
+                _player.Vie = 3;
+                addClassement();
+                _score = 0;
+                _coinArr = _mapWalls.LoadCoin(Content);
             }
         }
 
         //Fonction qui va draw le screen HighScore
         private void DrawDetectScreen()
         {
-            spriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(DetectScreenBackground, Vector2.Zero, Color.White);
         }
 
         //Fonction qui va draw le screen des controls
         private void DrawControlScreen()
         {
-            spriteBatch.Draw(ControlScreenBackground, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(ControlScreenBackground, Vector2.Zero, Color.White);
         }
-private void DrawGameOver()
-{
-    spriteBatch.Draw(GameOverBackground,Vector2.Zero, Color.White);
-}
-private void DrawVictory()
-{
-    spriteBatch.Draw(VictoryBackground,Vector2.Zero, Color.White);
-    player.Position.X = 0;
-    player.Position.Y = 0;
-    player.Velocity.X = 0;
-    player.Velocity.Y = 0;
-}
+        private void DrawGameOver()
+        {
+            _spriteBatch.Draw(GameOverBackground, Vector2.Zero, Color.White);
+        }
+        private void DrawVictory()
+        {
+            _spriteBatch.Draw(VictoryBackground, Vector2.Zero, Color.White);
+            _player.Position.X = 0;
+            _player.Position.Y = 0;
+            _player.Velocity.X = 0;
+            _player.Velocity.Y = 0;
+        }
 
         // Fonction qui va afficher le bouton pause quand le jeu est en pause
         private void DrawPausedBackground()
         {
-            spriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(PausedBackground, Vector2.Zero, Color.White);
         }
 
         //Fonction qui draw l'ecran de titre 
         private void DrawTitleScreen()
         {
-            spriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
+            _spriteBatch.Draw(DetectTitleScreenBackground, Vector2.Zero, Color.White);
             if (Keyboard.GetState().IsKeyDown(Keys.Escape))
             {
                 Exit();
             }
 
-            else if ((Keyboard.GetState().IsKeyDown(Keys.Z) == true) & (IsTitleScreenShown = true))
+            else if ((Keyboard.GetState().IsKeyDown(Keys.Z) == true) & (_isTitleScreenShown = true))
             {
                 DrawDetectScreen();
-                IsDetectedScreenShown = true;
-                IsTitleScreenShown = false;
-                IsControlsScreenShown = false;
+                _isDetectedScreenShown = true;
+                _isTitleScreenShown = false;
+                _isControlsScreenShown = false;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
                 {
                     DrawTitleScreen();
-                    IsDetectedScreenShown = false;
-                    IsTitleScreenShown = true;
-                    IsControlsScreenShown = false;
-                    IsVictoryScreenShown = false;
+                    _isDetectedScreenShown = false;
+                    _isTitleScreenShown = true;
+                    _isControlsScreenShown = false;
+                    _isVictoryScreenShown = false;
 
                 }
             }
 
-            else if ((Keyboard.GetState().IsKeyDown(Keys.E) == true) & (IsTitleScreenShown = true))
+            else if ((Keyboard.GetState().IsKeyDown(Keys.E) == true) & (_isTitleScreenShown = true))
             {
                 DrawControlScreen();
-                IsDetectedScreenShown = false;
-                IsTitleScreenShown = false;
-                IsControlsScreenShown = true;
+                _isDetectedScreenShown = false;
+                _isTitleScreenShown = false;
+                _isControlsScreenShown = true;
 
                 if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
                 {
                     DrawTitleScreen();
-                    IsDetectedScreenShown = false;
-                    IsTitleScreenShown = true;
-                    IsControlsScreenShown = false;
+                    _isDetectedScreenShown = false;
+                    _isTitleScreenShown = true;
+                    _isControlsScreenShown = false;
                 }
             }
         }
@@ -310,36 +290,36 @@ private void DrawVictory()
 
         private void IsTouchingScreenCollision()
         {
-            if (player.Position.X > Graphics.PreferredBackBufferWidth - player.PacmanTextureIdle.Width)
+            if (_player.Position.X > _graphics.PreferredBackBufferWidth - _player.PacmanTextureIdle.Width)
             {
-                player.Position.X = Graphics.PreferredBackBufferWidth - player.PacmanTextureIdle.Width;
+                _player.Position.X = _graphics.PreferredBackBufferWidth - _player.PacmanTextureIdle.Width;
             }
-            else if (player.Position.X < 0)
+            else if (_player.Position.X < 0)
             {
-                player.Position.X = 0;
+                _player.Position.X = 0;
             }
-            if (player.Position.Y > Graphics.PreferredBackBufferHeight - player.PacmanTextureIdle.Height)
+            if (_player.Position.Y > _graphics.PreferredBackBufferHeight - _player.PacmanTextureIdle.Height)
             {
-                player.Position.Y = Graphics.PreferredBackBufferHeight - player.PacmanTextureIdle.Height;
+                _player.Position.Y = _graphics.PreferredBackBufferHeight - _player.PacmanTextureIdle.Height;
             }
-            else if (player.Position.Y < 0)
+            else if (_player.Position.Y < 0)
             {
-                player.Position.Y = 0;
+                _player.Position.Y = 0;
             }
         }
 
         private void GetIntersectionCollisionGhost(List<Ghost> ghosts)
         {
-            foreach (var inter in interArr)
+            foreach (var inter in _interArr)
             {
-                if (inter.Position != previousInter.Position)
+                if (inter.Position != _previousInter.Position)
                 {
-                    foreach (var ghost in ghostsArr)
+                    foreach (var ghost in _ghostsArr)
                     {
-                        int direction = r.Next(1, 4);
+                        int direction = _r.Next(1, 4);
                         if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeftInter(inter, ghost))
                         {
-                            previousInter = inter;
+                            _previousInter = inter;
                             ghost.Velocity.X = 0;
                             switch (direction)
                             {
@@ -356,7 +336,7 @@ private void DrawVictory()
                         }
                         else if (ghost.Velocity.X < 0 && Collision.IsGhostTouchingRightInter(inter, ghost))
                         {
-                            previousInter = inter;
+                            _previousInter = inter;
                             ghost.Velocity.X = 0;
                             switch (direction)
                             {
@@ -373,7 +353,7 @@ private void DrawVictory()
                         }
                         else if (ghost.Velocity.Y > 0 && Collision.IsGhostTouchingTopInter(inter, ghost))
                         {
-                            previousInter = inter;
+                            _previousInter = inter;
                             ghost.Velocity.Y = 0;
                             switch (direction)
                             {
@@ -390,7 +370,7 @@ private void DrawVictory()
                         }
                         else if (ghost.Velocity.Y < 0 && Collision.IsGhostTouchingBottomInter(inter, ghost))
                         {
-                            previousInter = inter;
+                            _previousInter = inter;
                             ghost.Velocity.Y = 0;
                             switch (direction)
                             {
@@ -414,10 +394,10 @@ private void DrawVictory()
         {
             foreach (var ghost in ghosts)
             {
-                if (ghost.PositionG.X > Graphics.PreferredBackBufferWidth - 30)
+                if (ghost.PositionG.X > _graphics.PreferredBackBufferWidth - 30)
                 {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.X = Graphics.PreferredBackBufferWidth - 30;
+                    int direction = _r.Next(1, 3);
+                    ghost.PositionG.X = _graphics.PreferredBackBufferWidth - 30;
                     ghost.Velocity.X = 0;
                     switch (direction)
                     {
@@ -434,7 +414,7 @@ private void DrawVictory()
                 }
                 else if (ghost.PositionG.X < 0)
                 {
-                    int direction = r.Next(1, 3);
+                    int direction = _r.Next(1, 3);
                     ghost.PositionG.X = 0;
                     ghost.Velocity.X = 0;
                     switch (direction)
@@ -450,10 +430,10 @@ private void DrawVictory()
                             break;
                     }
                 }
-                if (ghost.PositionG.Y > Graphics.PreferredBackBufferHeight - 30)
+                if (ghost.PositionG.Y > _graphics.PreferredBackBufferHeight - 30)
                 {
-                    int direction = r.Next(1, 3);
-                    ghost.PositionG.Y = Graphics.PreferredBackBufferHeight - 30;
+                    int direction = _r.Next(1, 3);
+                    ghost.PositionG.Y = _graphics.PreferredBackBufferHeight - 30;
                     ghost.Velocity.Y = 0;
                     switch (direction)
                     {
@@ -470,7 +450,7 @@ private void DrawVictory()
                 }
                 else if (ghost.PositionG.Y < 0)
                 {
-                    int direction = r.Next(1, 3);
+                    int direction = _r.Next(1, 3);
                     ghost.PositionG.Y = 0;
                     ghost.Velocity.Y = 0;
                     switch (direction)
@@ -491,47 +471,64 @@ private void DrawVictory()
 
         private void CollectingCoin()
         {
-            for (int i = coinArr.Count - 1; i >= 0; i--)
+            for (int i = _coinArr.Count - 1; i >= 0; i--)
             {
-                if ((Collision.IsTouchingCoinLeft(player, coinArr[i])) ||
-                (Collision.IsTouchingCoinRight(player, coinArr[i])) ||
-                (Collision.IsTouchingCoinTop(player, coinArr[i])) ||
-                (Collision.IsTouchingCoinBottom(player, coinArr[i])))
+                if ((Collision.IsTouchingCoinLeft(_player, _coinArr[i])) ||
+                (Collision.IsTouchingCoinRight(_player, _coinArr[i])) ||
+                (Collision.IsTouchingCoinTop(_player, _coinArr[i])) ||
+                (Collision.IsTouchingCoinBottom(_player, _coinArr[i])))
                 {
-                    sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
-                    coinArr.Remove(coinArr[i]);
-                    score += 50;
+                    _sfx[1].Play(volume: 0.2f, pitch: 0.0f, pan: 0.0f);
+                    _coinArr.Remove(_coinArr[i]);
+                    _score += 50;
                 }
             }
-            if (coinArr.Count <= 0)
+            if (_coinArr.Count <= 0)
             {
-                IsVictoryScreenShown = true;
-                coinArr = mapWalls.LoadCoin(Content);
-                
+                _isVictoryScreenShown = true;
+                addClassement();
+                _coinArr = _mapWalls.LoadCoin(Content);
+
             }
+        }
+
+        private void addClassement() {
+            if (_classements.Count >= 5)
+                {
+                    if (_score > _classements[1])
+                    {
+                        _classements.Remove(_classements[1]);
+                        _classements.Add(_score);
+                    }
+                }
+                else
+                {
+                    _classements.Add(_score);
+                }
+                _classements.Sort();
         }
 
         private void GetWallsCollision(List<Walls> wallsList)
         {
             foreach (var wall in wallsList)
             {
-                if ((player.Velocity.X > 0 && Collision.IsTouchingLeft(player, wall)) ||
-                (player.Velocity.X < 0 & Collision.IsTouchingRight(player, wall)))
-                    player.Velocity.X = 0;
+                if ((_player.Velocity.X > 0 && Collision.IsTouchingLeft(_player, wall)) ||
+                (_player.Velocity.X < 0 & Collision.IsTouchingRight(_player, wall)))
+                    _player.Velocity.X = 0;
 
-                if ((player.Velocity.Y > 0 && Collision.IsTouchingTop(player, wall)) ||
-                    (player.Velocity.Y < 0 & Collision.IsTouchingBottom(player, wall)))
-                    player.Velocity.Y = 0;
+                if ((_player.Velocity.Y > 0 && Collision.IsTouchingTop(_player, wall)) ||
+                    (_player.Velocity.Y < 0 & Collision.IsTouchingBottom(_player, wall)))
+                    _player.Velocity.Y = 0;
             }
         }
 
         private void GetWallsGhostsCollision()
         {
-            foreach (var wall in wallsArr)
+            foreach (var wall in _wallsArr)
             {
-                foreach (var ghost in ghostsArr)
+                foreach (var ghost in _ghostsArr)
                 {
-                    int direction = r.Next(1, 4);
+                    int direction = _r.Next(1, 4);
                     if (ghost.Velocity.X > 0 && Collision.IsGhostTouchingLeft(wall, ghost))
                     {
 
@@ -604,19 +601,19 @@ private void DrawVictory()
 
         private void TouchingGhost()
         {
-            foreach (var ghost in ghostsArr)
+            foreach (var ghost in _ghostsArr)
             {
-                if ((Collision.IsPlayerTouchingGhostLeft(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostRight(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostTop(player, ghost)) ||
-                (Collision.IsPlayerTouchingGhostBottom(player, ghost)))
+                if ((Collision.IsPlayerTouchingGhostLeft(_player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostRight(_player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostTop(_player, ghost)) ||
+                (Collision.IsPlayerTouchingGhostBottom(_player, ghost)))
                 {
-                    player.Vie = player.Vie - 1;
-                    sfx[0].Play();
-                    player.Velocity.X = 0;
-                    player.Velocity.Y = 0;
-                    player.Position.X = 0;
-                    player.Position.Y = 0;
+                    _player.Vie = _player.Vie - 1;
+                    _sfx[0].Play();
+                    _player.Velocity.X = 0;
+                    _player.Velocity.Y = 0;
+                    _player.Position.X = 0;
+                    _player.Position.Y = 0;
                 }
             }
         }
@@ -631,103 +628,103 @@ private void DrawVictory()
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin();
+            _spriteBatch.Begin();
 
-            if (IsDetectedScreenShown)
+            if (_isDetectedScreenShown)
             {
                 DrawDetectScreen();
-                if (classements.Count > 0)
+                if (_classements.Count > 0)
                 {
                     var i = 0;
-                    foreach (var classement in classements)
+                    foreach (var classement in _classements)
                     {
-                        spriteBatch.DrawString(font, "Score: " + classement, new Vector2(450, 315 + i), Color.White);
+                        _spriteBatch.DrawString(_font, "Score: " + classement, new Vector2(450, 315 + i), Color.White);
                         i += 30;
                     }
                 }
             }
-            else if (IsTitleScreenShown)
+            else if (_isTitleScreenShown)
             {
                 DrawTitleScreen();
-                IsPaused = true;
+                _isPaused = true;
             }
-            else if (IsControlsScreenShown)
+            else if (_isControlsScreenShown)
             {
                 DrawControlScreen();
             }
-            else if (IsGameOver)
+            else if (_isGameOver)
             {
                 DrawGameOver();
             }
-            else if (IsVictoryScreenShown)
+            else if (_isVictoryScreenShown)
             {
                 DrawVictory();
             }
             else
             {
-                player.Draw(spriteBatch);
+                _player.Draw(_spriteBatch);
 
-                foreach (var ghost in ghostsArr)
+                foreach (var ghost in _ghostsArr)
                 {
-                    ghost.Draw(spriteBatch);
+                    ghost.Draw(_spriteBatch);
                 }
 
-                foreach (var wall in wallsArr)
+                foreach (var wall in _wallsArr)
                 {
-                    wall.Draw(spriteBatch);
+                    wall.Draw(_spriteBatch);
                 }
 
-                spriteBatch.DrawString(font, "Score: " + score, new Vector2(900, 25), Color.White);
-                spriteBatch.DrawString(font, "Vie: " + player.Vie, new Vector2(800, 25), Color.White);
+                _spriteBatch.DrawString(_font, "Score: " + _score, new Vector2(900, 25), Color.White);
+                _spriteBatch.DrawString(_font, "Vie: " + _player.Vie, new Vector2(800, 25), Color.White);
 
-                foreach (var coin in coinArr)
+                foreach (var coin in _coinArr)
                 {
-                    coin.Draw(spriteBatch);
+                    coin.Draw(_spriteBatch);
                 }
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Back) == true)
             {
-                IsTitleScreenShown = true;
-                IsDetectedScreenShown = false;
-                IsGameOver = false;
-                IsVictoryScreenShown = false;
+                _isTitleScreenShown = true;
+                _isDetectedScreenShown = false;
+                _isGameOver = false;
+                _isVictoryScreenShown = false;
                 DrawTitleScreen();
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.Space) == true)
             {
-                IsPaused = true;
+                _isPaused = true;
             }
 
             if (Keyboard.GetState().IsKeyDown(Keys.V) == true)
             {
                 //Permet d'ajouter du delai sur l'activation d'une touche pour reguler l'activation de celle ci
-                currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+                _currentTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-                if (currentTime >= 1)
+                if (_currentTime >= 1)
                 {
                     SaveScore();
-                    currentTime = 0;
+                    _currentTime = 0;
                 }
             }
 
-            if (IsPaused == true & (IsTitleScreenShown == false) & (IsControlsScreenShown == false) & (IsDetectedScreenShown == false))
+            if (_isPaused == true & (_isTitleScreenShown == false) & (_isControlsScreenShown == false) & (_isDetectedScreenShown == false))
             {
                 DrawPausedBackground();
             }
 
-            if (player.Vie < 1)
+            if (_player.Vie < 1)
             {
-                IsGameOver = true;
-                foreach (var Ghost in ghostsArr)
+                _isGameOver = true;
+                foreach (var ghost in _ghostsArr)
                 {
-                    Ghost.PositionG.X = 602;
-                    Ghost.PositionG.Y = 620;
+                    ghost.PositionG.X = 602;
+                    ghost.PositionG.Y = 620;
                 }
             }
 
-            spriteBatch.End();
+            _spriteBatch.End();
             base.Draw(gameTime);
         }
     }

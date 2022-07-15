@@ -15,14 +15,14 @@ namespace monJeu
     }
     public class Pacman
     {
-        public Texture2D PacmanTextureRight {get; set;}
-        public Texture2D PacmanTextureLeft {get; set;}
-        public Texture2D PacmanTextureIdle {get; set;}
-        public Texture2D PacmanTextureTop {get; set;}
-        public Texture2D PacmanTextureDown {get; set;}
+        public Texture2D PacmanTextureRight { get; set; }
+        public Texture2D PacmanTextureLeft { get; set; }
+        public Texture2D PacmanTextureIdle { get; set; }
+        public Texture2D PacmanTextureTop { get; set; }
+        public Texture2D PacmanTextureDown { get; set; }
         public Vector2 Position;
         public Vector2 Velocity;
-        public int Vie {get; set;} = 3;
+        public int Vie { get; set; } = 3;
         public Rectangle PlayerRec
         {
             get
@@ -30,8 +30,8 @@ namespace monJeu
                 return new Rectangle((int)Position.X, (int)Position.Y, PacmanTextureIdle.Width, PacmanTextureIdle.Height);
             }
         }
-        SpriteState currentSpriteState = SpriteState.Idle;
-        
+        private SpriteState _currentSpriteState = SpriteState.Idle;
+
 
         public void LoadPac(ContentManager content)
         {
@@ -45,29 +45,29 @@ namespace monJeu
         {
             if (Keyboard.GetState().IsKeyDown(Keys.Up))
             {
-                currentSpriteState = SpriteState.Top;
+                _currentSpriteState = SpriteState.Top;
                 Velocity.Y -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Down))
             {
-                currentSpriteState = SpriteState.Down;
+                _currentSpriteState = SpriteState.Down;
                 Velocity.Y += 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Left))
             {
-                currentSpriteState = SpriteState.Left;
+                _currentSpriteState = SpriteState.Left;
                 Velocity.X -= 2;
             }
             if (Keyboard.GetState().IsKeyDown(Keys.Right))
             {
-                currentSpriteState = SpriteState.Right;
+                _currentSpriteState = SpriteState.Right;
                 Velocity.X += 2;
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            switch (currentSpriteState)
+            switch (_currentSpriteState)
             {
                 case SpriteState.Left:
                     spriteBatch.Draw(PacmanTextureLeft, Position, Color.White);

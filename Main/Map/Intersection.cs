@@ -5,12 +5,12 @@ namespace monJeu
 {
     public class Intersection
     {
-        private Texture2D texture;
-        private Color interColor = Color.White;
-        public Vector2 Position {get; set;}
+        private Texture2D _texture;
+        private Color _interColor = Color.White;
+        public Vector2 Position { get; set; }
         public Intersection(Texture2D interTexture)
-        {   
-            texture = interTexture;
+        {
+            _texture = interTexture;
         }
         public Rectangle WallRec
         {

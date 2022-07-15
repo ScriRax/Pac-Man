@@ -5,12 +5,12 @@ namespace monJeu
 {
     public class Coin
     {
-        private Texture2D texture;
-        private Color CoinColor = Color.White;
-        public Vector2 Position {get; set;}
+        private Texture2D _texture;
+        private Color _coinColor = Color.White;
+        public Vector2 Position { get; set; }
         public Coin(Texture2D interTexture)
         {
-            texture = interTexture;
+            _texture = interTexture;
         }
         public Rectangle CoinRec
         {
@@ -18,11 +18,12 @@ namespace monJeu
             {
                 return new Rectangle((int)Position.X, (int)Position.Y, 25, 25);
             }
+            set { }
         }
 
         public void Draw(SpriteBatch wallsBatch)
         {
-            wallsBatch.Draw(texture, Position, null, CoinColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            wallsBatch.Draw(_texture, Position, null, _coinColor, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
